@@ -1,0 +1,60 @@
+{
+  "1.0.2": [
+    "Round up a purchase to support Ruby, with clearer messages when it isn't available",
+    "Update Ruby from inside the app",
+    "New fonts, corner styles, tile sizes and sidebar options in Device Preferences",
+    "A dot on Chat when you have unread messages",
+    "Security fixes"
+  ],
+  "1.0.3": [
+    "Server regions in the server list, found before you join",
+    "Limited stats: price chart, copies and Limited / Limited U badges",
+    "Trade risk check, trade summaries, search and quick decline",
+    "Friends who own an item, recently viewed items and sales counts",
+    "Subplaces and last played on game pages",
+    "Streamer mode (Ctrl+Shift+S)",
+    "Particles and glowing Neon on accessories in the 3D avatar",
+    "Unblock people from their profile, and a cleaner update banner"
+  ],
+  "1.0.4": [
+    "Wallpaper search: live wallpapers from MoeWalls and pictures from Wallhaven, with credit",
+    "Recent wallpapers for one-click switching",
+    "Send Robux from a profile (Roblox Plus)",
+    "Chat scrolls to your new message, and a tidier chat Details panel",
+    "Likes and dislikes work again",
+    "Ruby's own confirm dialogs, so Block, Unfriend and trade buttons work reliably",
+    "A more modern Device Preferences"
+  ],
+  "1.0.5": [
+    "Mods are added to new Roblox versions as soon as Roblox updates itself",
+    "Custom death sounds work again",
+    "Sign in and Add account always show the sign-in page instead of reusing your current account",
+    "Six voice chat icon packs now come with Ruby"
+  ],
+  "1.0.6": [
+    "Five new death sounds: Return by Death (Re:Zero), Totem of Undying, Minecraft damage, Pac-Man and Discord disconnect",
+    "A live preview of your Discord status in settings",
+    "Skybox previews show up for every skybox"
+  ],
+  "1.0.7": [
+    "Rias Gremory emote wheel, built in",
+    "Emote wheel packs show a preview in Mods"
+  ],
+  "1.0.8": [
+    "Show more people and experiences in search results",
+    "Items you buy show at the top of the avatar grid",
+    "Discord status and play sessions end properly when you leave a game quickly"
+  ],
+  "1.0.9": [
+    "New Customize page with backgrounds, theme and fonts up front, and a Settings gear for Ruby's own settings",
+    "Ruby in 20 more languages, with a language picker",
+    "Avatar page: slot tiles for body, clothing, accessories, animations and makeup, plus body build and skin colour",
+    "Load older chats by scrolling, and wallpapers load as you scroll"
+  ],
+  "1.0.10": [
+    "Optional Download Ruby Launcher button on your Discord status (Settings › General › Discord status)"
+  ],
+  "1.0.11": [
+    "Security: updated dependencies and tightened how the Roblox session cookie is handled"
+  ]
+}

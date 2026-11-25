@@ -1,0 +1,13 @@
+/* Script coverage: Windows ships these UI fonts; listing them keeps CJK/Thai/Arabic crisp instead of
+   falling back to whatever the WebView picks per glyph. */
+:root:lang(ja) body { font-family: var(--ui-font, "Builder Sans"), "Yu Gothic UI", "Meiryo UI", "Segoe UI", system-ui, sans-serif; }
+:root:lang(ko) body { font-family: var(--ui-font, "Builder Sans"), "Malgun Gothic", "Segoe UI", system-ui, sans-serif; }
+:root:lang(zh-CN) body { font-family: var(--ui-font, "Builder Sans"), "Microsoft YaHei UI", "Microsoft YaHei", "Segoe UI", system-ui, sans-serif; }
+:root:lang(zh-TW) body { font-family: var(--ui-font, "Builder Sans"), "Microsoft JhengHei UI", "Microsoft JhengHei", "Segoe UI", system-ui, sans-serif; }
+:root:lang(th) body { font-family: var(--ui-font, "Builder Sans"), "Leelawadee UI", "Segoe UI", system-ui, sans-serif; }
+:root:lang(ar) body { font-family: var(--ui-font, "Builder Sans"), "Segoe UI", "Arial", "Tahoma", system-ui, sans-serif; }
+
+/* RTL: the app is laid out with flex/grid so most of it mirrors on its own; fix the few physical bits. */
+[dir="rtl"] input, [dir="rtl"] textarea { text-align: right; }
+[dir="rtl"] .mono, [dir="rtl"] code { direction: ltr; unicode-bidi: isolate; }
+[dir="rtl"] .titlebar, [dir="rtl"] .window-controls { direction: ltr; }

@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Ruby Launcher Setup</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header class="bar" data-tauri-drag-region>
+        <span class="bar-title" data-tauri-drag-region>Ruby Launcher</span>
+        <div class="bar-btns">
+          <button id="min" aria-label="Minimize">
+            <svg viewBox="0 0 12 12"><path d="M2 6h8" /></svg>
+          </button>
+          <button id="close" aria-label="Close">
+            <svg viewBox="0 0 12 12"><path d="M3 3l6 6M9 3l-6 6" /></svg>
+          </button>
+        </div>
+      </header>
+
+      <main>
+        <div class="hero" data-tauri-drag-region>
+          <div class="glow"></div>
+          <img class="logo" src="logo.png" alt="" draggable="false" />
+          <h1 id="title">Ruby Launcher</h1>
+          <p id="subtitle" class="muted">A cleaner way to play Roblox</p>
+        </div>
+
+        <!-- Install / uninstall start -->
+        <section id="start" class="panel">
+          <button id="primary" class="btn primary">Install</button>
+          <button id="optionsToggle" class="link">Options</button>
+          <div id="options" class="options" hidden>
+            <label class="opt"><span>Desktop shortcut</span><input type="checkbox" id="desktop" class="switch" checked /></label>
+            <label class="opt"><span>Open Ruby when done</span><input type="checkbox" id="launch" class="switch" checked /></label>
+            <div class="where muted"><span>Installs to</span><code id="dir"></code></div>
+          </div>
+          <label id="removeDataRow" class="opt" hidden><span>Also delete my settings and saved accounts</span><input type="checkbox" id="removeData" class="switch" /></label>
+          <p id="fine" class="fine muted"></p>
+        </section>
+
+        <!-- Working -->
+        <section id="working" class="panel" hidden>
+          <div class="progress"><span id="bar"></span></div>
+          <div class="step"><span id="step">Starting…</span><span id="pct">0%</span></div>
+        </section>
+
+        <!-- Done / error -->
+        <section id="done" class="panel" hidden>
+          <div class="done-icon" id="doneIcon"></div>
+          <p id="doneText" class="done-text"></p>
+          <button id="doneBtn" class="btn primary"></button>
+          <button id="closeBtn" class="btn ghost">Close</button>
+        </section>
+      </main>
+    </div>
+    <script src="app.js"></script>
+  </body>
+</html>
