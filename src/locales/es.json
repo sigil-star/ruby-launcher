@@ -1479,5 +1479,18 @@
   "Make Ruby and Roblox look how you like. In-game originals are backed up, so anything you turn off goes back exactly as it was.": "Haz que Ruby y Roblox se vean como quieras. Los originales del juego se guardan, así que todo lo que desactives vuelve tal como estaba.",
   "Download Ruby Launcher": "Descargar Ruby Launcher",
   "Download Ruby Launcher button": "Botón Descargar Ruby Launcher",
-  "Lets friends get Ruby. Discord shows at most two buttons, so it's hidden when Join and View Profile are both on.": "Permite que tus amigos consigan Ruby. Discord muestra como máximo dos botones, así que se oculta si Unirse y Ver perfil están activados."
+  "Lets friends get Ruby. Discord shows at most two buttons, so it's hidden when Join and View Profile are both on.": "Permite que tus amigos consigan Ruby. Discord muestra como máximo dos botones, así que se oculta si Unirse y Ver perfil están activados.",
+  "This plugin page isn't available.": "Esta página de plugin no está disponible.",
+  "Plugin installed. Turn it on below.": "Plugin instalado. Actívalo abajo.",
+  "Enable \"{name}\"? Plugins run inside Ruby with full access, so only enable ones you trust.": "¿Activar \"{name}\"? Los plugins se ejecutan dentro de Ruby con acceso total, así que activa solo los de confianza.",
+  "Plugin turned off.": "Plugin desactivado.",
+  "Plugin turned on.": "Plugin activado.",
+  "Remove \"{name}\"? Its files are deleted from this PC.": "¿Quitar \"{name}\"? Sus archivos se eliminan de este PC.",
+  "Plugin removed.": "Plugin eliminado.",
+  "Add features to Ruby, or build your own. Plugins run inside Ruby, so only turn on ones you trust.": "Añade funciones a Ruby, o crea las tuyas. Los plugins se ejecutan dentro de Ruby, así que activa solo los de confianza.",
+  "Install": "Instalar",
+  "Unknown author": "Autor desconocido",
+  "No plugins yet. Click \"Open folder\", drop a plugin folder inside, then Refresh.": "Aún no hay plugins. Pulsa \"Abrir carpeta\", pon dentro una carpeta de plugin y pulsa Actualizar.",
+  "How to make a plugin": "Cómo crear un plugin",
+  "Add features to Ruby, or build your own.": "Añade funciones a Ruby, o crea las tuyas."
 }

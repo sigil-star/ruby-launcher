@@ -263,8 +263,11 @@ pub async fn dispatch(
         )
         .await),
 
+        "appVersion" => Ok(json!(app.package_info().version.to_string())),
+
         // Plugins
         "listPlugins" => Ok(crate::plugins::list(&state)),
+        "installPluginFiles" => crate::plugins::install_files(&state, arg(&args, 0).cloned().unwrap_or(json!([]))),
         "setPluginEnabled" => crate::plugins::set_enabled(&state, arg_str(&args, 0).unwrap_or(""), arg(&args, 1).and_then(|v| v.as_bool()).unwrap_or(false)),
         "removePlugin" => crate::plugins::remove(&state, arg_str(&args, 0).unwrap_or("")),
         "openPluginsFolder" => crate::plugins::open_folder(&state),

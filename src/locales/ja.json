@@ -1479,5 +1479,18 @@
   "Make Ruby and Roblox look how you like. In-game originals are backed up, so anything you turn off goes back exactly as it was.": "RubyとRobloxの見た目を好きなように変えられます。ゲーム内の元ファイルはバックアップされるので、オフにしたものは元どおりに戻ります。",
   "Download Ruby Launcher": "Ruby Launcherをダウンロード",
   "Download Ruby Launcher button": "「Ruby Launcherをダウンロード」ボタン",
-  "Lets friends get Ruby. Discord shows at most two buttons, so it's hidden when Join and View Profile are both on.": "フレンドがRubyを入手できます。Discordのボタンは最大2つなので、参加とプロフィールを見るが両方オンのときは表示されません。"
+  "Lets friends get Ruby. Discord shows at most two buttons, so it's hidden when Join and View Profile are both on.": "フレンドがRubyを入手できます。Discordのボタンは最大2つなので、参加とプロフィールを見るが両方オンのときは表示されません。",
+  "This plugin page isn't available.": "このプラグインページは利用できません。",
+  "Plugin installed. Turn it on below.": "プラグインをインストールしました。下でオンにしてください。",
+  "Enable \"{name}\"? Plugins run inside Ruby with full access, so only enable ones you trust.": "「{name}」を有効にしますか？プラグインはRuby内でフル権限で動くので、信頼できるものだけを有効にしてください。",
+  "Plugin turned off.": "プラグインをオフにしました。",
+  "Plugin turned on.": "プラグインをオンにしました。",
+  "Remove \"{name}\"? Its files are deleted from this PC.": "「{name}」を削除しますか？ファイルはこのPCから削除されます。",
+  "Plugin removed.": "プラグインを削除しました。",
+  "Add features to Ruby, or build your own. Plugins run inside Ruby, so only turn on ones you trust.": "Rubyに機能を追加したり、自分で作ったり。プラグインはRuby内で動くので、信頼できるものだけをオンにしてください。",
+  "Install": "インストール",
+  "Unknown author": "作者不明",
+  "No plugins yet. Click \"Open folder\", drop a plugin folder inside, then Refresh.": "まだプラグインがありません。「フォルダを開く」でプラグインのフォルダを入れ、更新を押してください。",
+  "How to make a plugin": "プラグインの作り方",
+  "Add features to Ruby, or build your own.": "Rubyに機能を追加したり、自分で作ったり。"
 }

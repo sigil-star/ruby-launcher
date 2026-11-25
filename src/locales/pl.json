@@ -1479,5 +1479,18 @@
   "Make Ruby and Roblox look how you like. In-game originals are backed up, so anything you turn off goes back exactly as it was.": "Dostosuj wygląd Ruby i Roblox. Oryginały w grze są zachowywane, więc wszystko, co wyłączysz, wróci dokładnie do poprzedniego stanu.",
   "Download Ruby Launcher": "Pobierz Ruby Launcher",
   "Download Ruby Launcher button": "Przycisk Pobierz Ruby Launcher",
-  "Lets friends get Ruby. Discord shows at most two buttons, so it's hidden when Join and View Profile are both on.": "Pozwala znajomym pobrać Ruby. Discord pokazuje maksymalnie dwa przyciski, więc jest ukryty, gdy Dołącz i Zobacz profil są włączone."
+  "Lets friends get Ruby. Discord shows at most two buttons, so it's hidden when Join and View Profile are both on.": "Pozwala znajomym pobrać Ruby. Discord pokazuje maksymalnie dwa przyciski, więc jest ukryty, gdy Dołącz i Zobacz profil są włączone.",
+  "This plugin page isn't available.": "Ta strona wtyczki jest niedostępna.",
+  "Plugin installed. Turn it on below.": "Wtyczka zainstalowana. Włącz ją poniżej.",
+  "Enable \"{name}\"? Plugins run inside Ruby with full access, so only enable ones you trust.": "Włączyć „{name}”? Wtyczki działają w Ruby z pełnym dostępem, włączaj tylko zaufane.",
+  "Plugin turned off.": "Wtyczka wyłączona.",
+  "Plugin turned on.": "Wtyczka włączona.",
+  "Remove \"{name}\"? Its files are deleted from this PC.": "Usunąć „{name}”? Jej pliki zostaną usunięte z tego komputera.",
+  "Plugin removed.": "Wtyczka usunięta.",
+  "Add features to Ruby, or build your own. Plugins run inside Ruby, so only turn on ones you trust.": "Dodaj funkcje do Ruby albo stwórz własne. Wtyczki działają w Ruby, więc włączaj tylko zaufane.",
+  "Install": "Zainstaluj",
+  "Unknown author": "Nieznany autor",
+  "No plugins yet. Click \"Open folder\", drop a plugin folder inside, then Refresh.": "Brak wtyczek. Kliknij „Otwórz folder”, wrzuć folder wtyczki i kliknij Odśwież.",
+  "How to make a plugin": "Jak zrobić wtyczkę",
+  "Add features to Ruby, or build your own.": "Dodaj funkcje do Ruby albo stwórz własne."
 }

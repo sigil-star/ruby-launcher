@@ -1479,5 +1479,18 @@
   "Make Ruby and Roblox look how you like. In-game originals are backed up, so anything you turn off goes back exactly as it was.": "Ruby와 Roblox를 원하는 모습으로 꾸며 보세요. 게임 원본은 백업되므로 끈 항목은 원래대로 정확히 돌아가요.",
   "Download Ruby Launcher": "Ruby Launcher 다운로드",
   "Download Ruby Launcher button": "Ruby Launcher 다운로드 버튼",
-  "Lets friends get Ruby. Discord shows at most two buttons, so it's hidden when Join and View Profile are both on.": "친구가 Ruby를 받을 수 있어요. Discord는 버튼을 최대 2개까지만 보여 주므로 참가와 프로필 보기가 모두 켜져 있으면 숨겨져요."
+  "Lets friends get Ruby. Discord shows at most two buttons, so it's hidden when Join and View Profile are both on.": "친구가 Ruby를 받을 수 있어요. Discord는 버튼을 최대 2개까지만 보여 주므로 참가와 프로필 보기가 모두 켜져 있으면 숨겨져요.",
+  "This plugin page isn't available.": "이 플러그인 페이지를 사용할 수 없어요.",
+  "Plugin installed. Turn it on below.": "플러그인을 설치했어요. 아래에서 켜 주세요.",
+  "Enable \"{name}\"? Plugins run inside Ruby with full access, so only enable ones you trust.": "\"{name}\"을(를) 켤까요? 플러그인은 Ruby 안에서 모든 권한으로 실행되니 신뢰하는 것만 켜세요.",
+  "Plugin turned off.": "플러그인을 껐어요.",
+  "Plugin turned on.": "플러그인을 켰어요.",
+  "Remove \"{name}\"? Its files are deleted from this PC.": "\"{name}\"을(를) 제거할까요? 파일이 이 PC에서 삭제돼요.",
+  "Plugin removed.": "플러그인을 제거했어요.",
+  "Add features to Ruby, or build your own. Plugins run inside Ruby, so only turn on ones you trust.": "Ruby에 기능을 추가하거나 직접 만들어 보세요. 플러그인은 Ruby 안에서 실행되니 신뢰하는 것만 켜세요.",
+  "Install": "설치",
+  "Unknown author": "작성자 미상",
+  "No plugins yet. Click \"Open folder\", drop a plugin folder inside, then Refresh.": "아직 플러그인이 없어요. \"폴더 열기\"를 눌러 플러그인 폴더를 넣고 새로고침하세요.",
+  "How to make a plugin": "플러그인 만드는 법",
+  "Add features to Ruby, or build your own.": "Ruby에 기능을 추가하거나 직접 만들어 보세요."
 }

@@ -11,9 +11,9 @@ Ruby loads enabled plugins and gives each one a single `ruby` object to work wit
 ## Install a plugin
 
 1. In Ruby, open **Plugins** (the menu, or Settings › General › Plugins).
-2. Click **Open folder**.
-3. Drop the plugin's folder inside, then click **Refresh**.
-4. Turn the plugin **on**. Ruby asks you to confirm, because plugins run inside Ruby with full
+2. Click **Install** and pick the plugin's folder — or click **Open folder**, drop the folder
+   in, and click **Refresh**.
+3. Turn the plugin **on**. Ruby asks you to confirm, because plugins run inside Ruby with full
    access — only enable ones you trust.
 
 ## Folder layout
@@ -70,7 +70,13 @@ ruby.registerPage({
 | `ruby.apiVersion` | The API version (currently `1`). |
 | `ruby.registerPage({ id, label, icon?, mount })` | Adds a button to the left bar. `mount(container)` draws your page into a plain DOM element; it may return a cleanup function. |
 | `ruby.registerSettings({ id, title, mount })` | Adds a section under Ruby Settings › General. Same `mount` shape. |
+| `ruby.registerCustomizeTab({ id, label, icon?, mount })` | Adds a tab to the Customize page. Same `mount` shape. |
 | `ruby.on(event, cb)` | Listen for `"navigate"`, `"gameLaunch"`, or `"gameLeave"`. |
+| `ruby.onUnload(cb)` | Run `cb` when the plugin is turned off or reloaded (clear timers/listeners). |
+| `ruby.user` | Public info about the signed-in user: `{ id, name, displayName }`. Never the Roblox session. |
+| `ruby.version` | Ruby's version string. |
+| `ruby.confirm(message)` | Ask the user to confirm; returns a `Promise<boolean>`. |
+| `ruby.openExternal(url)` | Open an `https` link in the user's browser. |
 | `ruby.toast(message, kind?)` | Show a toast. `kind` may be `"error"`. |
 | `ruby.navigate(name)` | Go to a built-in page by name (`"home"`, `"avatar"`, `"chat"`, `"mods"`, `"plugins"`, …). |
 | `ruby.storage.get(key)` / `ruby.storage.set(key, value)` | Per-plugin string storage, saved on this PC only. |

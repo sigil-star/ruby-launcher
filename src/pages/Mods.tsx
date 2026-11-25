@@ -1,9 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
+import { usePluginCustomizeTabs, type PluginCustomizeTab } from "../lib/plugins";
 import { RubyPrefsSections } from "./Settings";
 import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from "react";
 import { call } from "../lib/ipc";
 import { useUi } from "../app/store";
-import { Icon, Skel } from "../components/ui";
+import { Icon, Skel, type IconName } from "../components/ui";
 import { GraphicsPanel, graphicsQuery, saveGraphics, type GraphicsSettings } from "../components/Graphics";
 import { t } from "../lib/i18n";
 
@@ -160,7 +161,7 @@ const CAT_OF: Record<string, Cat> = {
   "Death sound": "world",
   "Imported packs": "packs",
 };
-const CatCtx = createContext<Cat>("graphics");
+const CatCtx = createContext<string>("graphics");
 
 function Section({ title, name, sub, action, children }: { title: string; name: string; sub: string; action?: ReactNode; children?: ReactNode }) {
   const cat = useContext(CatCtx);
@@ -219,23 +220,27 @@ export function ModsPage({ initialCat }: { initialCat?: string } = {}) {
     return () => window.removeEventListener("focus", onFocus);
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const [cat, setCatState] = useState<Cat>(() => {
-    if (initialCat && CATS.some((c) => c.id === initialCat)) return initialCat as Cat;
+  // `cat` is a built-in category id, or `plugin:<pluginId>:<tabId>` for a plugin's Customize tab.
+  const [cat, setCatState] = useState<string>(() => {
+    if (initialCat && CATS.some((c) => c.id === initialCat)) return initialCat;
     try {
-      const saved = localStorage.getItem("ruby.modsCat") as Cat | null;
+      const saved = localStorage.getItem("ruby.modsCat");
       return saved && CATS.some((c) => c.id === saved) ? saved : "look";
     } catch {
       return "look";
     }
   });
-  const setCat = (c: Cat) => {
+  const setCat = (c: string) => {
     setCatState(c);
     try {
-      localStorage.setItem("ruby.modsCat", c);
+      // Only built-in categories are remembered; plugin tabs shouldn't stick across restarts.
+      if (CATS.some((x) => x.id === c)) localStorage.setItem("ruby.modsCat", c);
     } catch {
       /* preference only */
     }
   };
+  const pluginTabs = usePluginCustomizeTabs();
+  const activePluginTab = pluginTabs.find((p) => cat === `plugin:${p.pluginId}:${p.id}`);
 
   const [playing, setPlaying] = useState<string | null>(null);
   const audioRef = useRef<{ ctx: AudioContext; src?: AudioBufferSourceNode } | null>(null);
@@ -414,8 +419,18 @@ export function ModsPage({ initialCat }: { initialCat?: string } = {}) {
               {c.id === "packs" && mine.length ? <span className="mods-nav-count">{mine.length}</span> : null}
             </button>
           ))}
+          {pluginTabs.map((p) => {
+            const key = `plugin:${p.pluginId}:${p.id}`;
+            return (
+              <button key={key} className={cat === key ? "on" : ""} onClick={() => setCat(key)}>
+                <Icon name={(p.icon as IconName) ?? "squares-grid-qr"} size={24} />
+                <span className="ellipsis">{p.label}</span>
+              </button>
+            );
+          })}
         </nav>
         <div className="mods-body" key={cat}>
+      {activePluginTab ? <PluginTabMount tab={activePluginTab} /> : null}
       {cat === "graphics" ? <GraphicsPanel g={gfx} onChange={setGfx} /> : null}
       {cat === "look" ? (
         <section className="client-card mod-section look-section">
@@ -757,4 +772,29 @@ export function ModsPage({ initialCat }: { initialCat?: string } = {}) {
     </div>
     </CatCtx.Provider>
   );
+}
+
+/** Mounts a plugin-contributed Customize tab into a DOM container. */
+function PluginTabMount({ tab }: { tab: PluginCustomizeTab }) {
+  const host = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const el = host.current;
+    if (!el) return;
+    el.replaceChildren();
+    let cleanup: void | (() => void);
+    try {
+      cleanup = tab.mount(el);
+    } catch (e) {
+      console.error("[plugin customize tab]", e);
+    }
+    return () => {
+      try {
+        if (typeof cleanup === "function") cleanup();
+      } catch {
+        /* ignore */
+      }
+      el.replaceChildren();
+    };
+  }, [tab]);
+  return <div className="plugin-host" ref={host} />;
 }

@@ -18,16 +18,29 @@ export type PluginInfo = { id: string; name: string; version: string; author: st
 
 export type PluginPage = { pluginId: string; id: string; label: string; icon?: string; mount: (container: HTMLElement) => void | (() => void) };
 export type PluginSettings = { pluginId: string; id: string; title: string; mount: (container: HTMLElement) => void | (() => void) };
+export type PluginCustomizeTab = { pluginId: string; id: string; label: string; icon?: string; mount: (container: HTMLElement) => void | (() => void) };
+
+/** Public, non-sensitive bits the host hands to plugins. Never includes the Roblox cookie. */
+export type PluginUser = { id: number; name: string; displayName: string };
+export type HostContext = {
+  toast: (m: string, kind?: "error") => void;
+  navigate: (name: string) => void;
+  confirm: (message: string) => Promise<boolean>;
+  openExternal: (url: string) => void;
+  user: PluginUser;
+  version: string;
+};
 
 type RubyEvent = "navigate" | "gameLaunch" | "gameLeave";
 
 type Registry = {
   pages: PluginPage[];
   settings: PluginSettings[];
+  customizeTabs: PluginCustomizeTab[];
   events: Record<RubyEvent, Array<(payload: unknown) => void>>;
 };
 
-const registry: Registry = { pages: [], settings: [], events: { navigate: [], gameLaunch: [], gameLeave: [] } };
+const registry: Registry = { pages: [], settings: [], customizeTabs: [], events: { navigate: [], gameLaunch: [], gameLeave: [] } };
 const listeners = new Set<() => void>();
 const emitChange = () => listeners.forEach((l) => l());
 
@@ -44,6 +57,10 @@ export function usePluginPages(): PluginPage[] {
 export function usePluginSettings(): PluginSettings[] {
   return useSyncExternalStore(subscribe, () => registry.settings);
 }
+/** Tabs contributed by plugins to the Customize page. */
+export function usePluginCustomizeTabs(): PluginCustomizeTab[] {
+  return useSyncExternalStore(subscribe, () => registry.customizeTabs);
+}
 
 /** Fire a Ruby event to plugins that subscribed. Errors in one plugin never affect the others. */
 export function emitRubyEvent(event: RubyEvent, payload?: unknown) {
@@ -57,7 +74,7 @@ export function emitRubyEvent(event: RubyEvent, payload?: unknown) {
 }
 
 /** The `ruby` object a single plugin receives. Everything is namespaced to that plugin. */
-function makeApi(info: PluginInfo, toast: (m: string, kind?: "error") => void, navigate: (name: string) => void) {
+function makeApi(info: PluginInfo, host: HostContext) {
   const removers: Array<() => void> = [];
   const api = {
     id: info.id,
@@ -84,6 +101,16 @@ function makeApi(info: PluginInfo, toast: (m: string, kind?: "error") => void, n
       emitChange();
     },
 
+    /** Add a tab to the Customize page. `mount` draws into the given element. */
+    registerCustomizeTab(tab: { id: string; label: string; icon?: string; mount: (container: HTMLElement) => void | (() => void) }) {
+      const entry: PluginCustomizeTab = { pluginId: info.id, ...tab };
+      registry.customizeTabs.push(entry);
+      removers.push(() => {
+        registry.customizeTabs = registry.customizeTabs.filter((tt) => tt !== entry) as PluginCustomizeTab[];
+      });
+      emitChange();
+    },
+
     /** Listen for a Ruby event: "navigate", "gameLaunch", "gameLeave". */
     on(event: RubyEvent, cb: (payload: unknown) => void) {
       (registry.events[event] ??= []).push(cb);
@@ -92,14 +119,40 @@ function makeApi(info: PluginInfo, toast: (m: string, kind?: "error") => void, n
       });
     },
 
+    /** Run a function when the plugin is turned off or reloaded (tear down timers, etc.). */
+    onUnload(cb: () => void) {
+      removers.push(() => {
+        try {
+          cb();
+        } catch {
+          /* ignore */
+        }
+      });
+    },
+
+    /** Public info about the signed-in user. Never includes the Roblox session. */
+    user: host.user,
+    /** Ruby's version string. */
+    version: host.version,
+
     /** Show a toast. */
     toast(message: string, kind?: "error") {
-      toast(String(message).slice(0, 300), kind);
+      host.toast(String(message).slice(0, 300), kind);
+    },
+
+    /** Ask the user to confirm something; resolves true/false. */
+    confirm(message: string): Promise<boolean> {
+      return host.confirm(String(message).slice(0, 300));
+    },
+
+    /** Open an https link in the user's browser (http/https only). */
+    openExternal(url: string) {
+      if (/^https?:\/\//i.test(url)) host.openExternal(url);
     },
 
     /** Go to one of Ruby's built-in pages by name (e.g. "home", "avatar", "chat"). */
     navigate(routeName: string) {
-      navigate(routeName);
+      host.navigate(routeName);
     },
 
     /** Per-plugin key/value storage (persists on this PC only). */
@@ -131,12 +184,13 @@ export function unloadPlugins() {
   disposers = [];
   registry.pages = [];
   registry.settings = [];
+  registry.customizeTabs = [];
   (Object.keys(registry.events) as RubyEvent[]).forEach((k) => (registry.events[k] = []));
   emitChange();
 }
 
 /** Load and run every enabled plugin. Safe to call again; it reloads from scratch. */
-export async function loadPlugins(toast: (m: string, kind?: "error") => void, navigate: (name: string) => void) {
+export async function loadPlugins(host: HostContext) {
   unloadPlugins();
   let res: { plugins: PluginInfo[] };
   try {
@@ -146,7 +200,7 @@ export async function loadPlugins(toast: (m: string, kind?: "error") => void, na
   }
   for (const info of res.plugins) {
     if (!info.enabled || !info.code) continue;
-    const { api, dispose } = makeApi(info, toast, navigate);
+    const { api, dispose } = makeApi(info, host);
     disposers.push(dispose);
     try {
       // The plugin's code runs with `ruby` as its only injected name. "use strict" keeps it tidy.
@@ -154,7 +208,7 @@ export async function loadPlugins(toast: (m: string, kind?: "error") => void, na
       run(api);
     } catch (e) {
       console.error(`[plugin ${info.id}]`, e);
-      toast(`Plugin "${info.name}" failed to load.`, "error");
+      host.toast(`Plugin "${info.name}" failed to load.`, "error");
     }
   }
 }

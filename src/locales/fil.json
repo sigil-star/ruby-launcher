@@ -1479,5 +1479,18 @@
   "Make Ruby and Roblox look how you like. In-game originals are backed up, so anything you turn off goes back exactly as it was.": "Gawing ayon sa gusto mo ang itsura ng Ruby at Roblox. Naka-back up ang mga orihinal sa laro, kaya babalik nang eksakto ang anumang i-off mo.",
   "Download Ruby Launcher": "I-download ang Ruby Launcher",
   "Download Ruby Launcher button": "Button na I-download ang Ruby Launcher",
-  "Lets friends get Ruby. Discord shows at most two buttons, so it's hidden when Join and View Profile are both on.": "Para makuha rin ng mga kaibigan ang Ruby. Hanggang dalawang button lang ang ipinapakita ng Discord, kaya nakatago ito kapag parehong naka-on ang Join at View Profile."
+  "Lets friends get Ruby. Discord shows at most two buttons, so it's hidden when Join and View Profile are both on.": "Para makuha rin ng mga kaibigan ang Ruby. Hanggang dalawang button lang ang ipinapakita ng Discord, kaya nakatago ito kapag parehong naka-on ang Join at View Profile.",
+  "This plugin page isn't available.": "Hindi available ang pahina ng plugin na ito.",
+  "Plugin installed. Turn it on below.": "Na-install ang plugin. I-on ito sa ibaba.",
+  "Enable \"{name}\"? Plugins run inside Ruby with full access, so only enable ones you trust.": "I-enable ang \"{name}\"? Tumatakbo ang mga plugin sa loob ng Ruby nang may buong access, kaya i-on lang ang pinagkakatiwalaan.",
+  "Plugin turned off.": "Na-off ang plugin.",
+  "Plugin turned on.": "Na-on ang plugin.",
+  "Remove \"{name}\"? Its files are deleted from this PC.": "Alisin ang \"{name}\"? Buburahin ang mga file nito sa PC na ito.",
+  "Plugin removed.": "Inalis ang plugin.",
+  "Add features to Ruby, or build your own. Plugins run inside Ruby, so only turn on ones you trust.": "Magdagdag ng feature sa Ruby, o gumawa ng sarili. Tumatakbo ang mga plugin sa loob ng Ruby, kaya i-on lang ang pinagkakatiwalaan.",
+  "Install": "I-install",
+  "Unknown author": "Hindi kilalang may-akda",
+  "No plugins yet. Click \"Open folder\", drop a plugin folder inside, then Refresh.": "Wala pang plugin. I-click ang \"Buksan ang folder\", maglagay ng plugin folder, tapos i-click ang I-refresh.",
+  "How to make a plugin": "Paano gumawa ng plugin",
+  "Add features to Ruby, or build your own.": "Magdagdag ng feature sa Ruby, o gumawa ng sarili."
 }

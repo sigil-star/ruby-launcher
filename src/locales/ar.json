@@ -1479,5 +1479,18 @@
   "Make Ruby and Roblox look how you like. In-game originals are backed up, so anything you turn off goes back exactly as it was.": "اجعل Ruby وRoblox بالشكل الذي تحبه. يتم الاحتفاظ بنسخة من ملفات اللعبة الأصلية، لذا يعود كل ما توقفه تمامًا كما كان.",
   "Download Ruby Launcher": "تنزيل Ruby Launcher",
   "Download Ruby Launcher button": "زر تنزيل Ruby Launcher",
-  "Lets friends get Ruby. Discord shows at most two buttons, so it's hidden when Join and View Profile are both on.": "يتيح لأصدقائك الحصول على Ruby. يعرض Discord زرين كحد أقصى، لذا يُخفى عند تفعيل الانضمام وعرض الملف الشخصي معًا."
+  "Lets friends get Ruby. Discord shows at most two buttons, so it's hidden when Join and View Profile are both on.": "يتيح لأصدقائك الحصول على Ruby. يعرض Discord زرين كحد أقصى، لذا يُخفى عند تفعيل الانضمام وعرض الملف الشخصي معًا.",
+  "This plugin page isn't available.": "صفحة الإضافة هذه غير متاحة.",
+  "Plugin installed. Turn it on below.": "تم تثبيت الإضافة. فعّلها بالأسفل.",
+  "Enable \"{name}\"? Plugins run inside Ruby with full access, so only enable ones you trust.": "تفعيل \"{name}\"؟ تعمل الإضافات داخل Ruby بصلاحية كاملة، لذا فعّل فقط ما تثق به.",
+  "Plugin turned off.": "تم إيقاف الإضافة.",
+  "Plugin turned on.": "تم تفعيل الإضافة.",
+  "Remove \"{name}\"? Its files are deleted from this PC.": "إزالة \"{name}\"؟ ستُحذف ملفاتها من هذا الجهاز.",
+  "Plugin removed.": "تمت إزالة الإضافة.",
+  "Add features to Ruby, or build your own. Plugins run inside Ruby, so only turn on ones you trust.": "أضِف ميزات إلى Ruby، أو اصنع ميزاتك. تعمل الإضافات داخل Ruby، لذا فعّل فقط ما تثق به.",
+  "Install": "تثبيت",
+  "Unknown author": "مؤلف غير معروف",
+  "No plugins yet. Click \"Open folder\", drop a plugin folder inside, then Refresh.": "لا توجد إضافات بعد. انقر \"فتح المجلد\"، وضَع مجلد الإضافة بداخله، ثم انقر تحديث.",
+  "How to make a plugin": "كيفية صنع إضافة",
+  "Add features to Ruby, or build your own.": "أضِف ميزات إلى Ruby، أو اصنع ميزاتك."
 }

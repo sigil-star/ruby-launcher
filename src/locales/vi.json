@@ -1479,5 +1479,18 @@
   "Make Ruby and Roblox look how you like. In-game originals are backed up, so anything you turn off goes back exactly as it was.": "Tùy chỉnh giao diện Ruby và Roblox theo ý bạn. Bản gốc trong game được sao lưu, nên mọi thứ bạn tắt sẽ trở lại y như cũ.",
   "Download Ruby Launcher": "Tải Ruby Launcher",
   "Download Ruby Launcher button": "Nút Tải Ruby Launcher",
-  "Lets friends get Ruby. Discord shows at most two buttons, so it's hidden when Join and View Profile are both on.": "Giúp bạn bè tải Ruby. Discord chỉ hiện tối đa hai nút, nên nút này bị ẩn khi bật cả Tham gia và Xem hồ sơ."
+  "Lets friends get Ruby. Discord shows at most two buttons, so it's hidden when Join and View Profile are both on.": "Giúp bạn bè tải Ruby. Discord chỉ hiện tối đa hai nút, nên nút này bị ẩn khi bật cả Tham gia và Xem hồ sơ.",
+  "This plugin page isn't available.": "Trang plugin này không khả dụng.",
+  "Plugin installed. Turn it on below.": "Đã cài plugin. Bật nó ở dưới.",
+  "Enable \"{name}\"? Plugins run inside Ruby with full access, so only enable ones you trust.": "Bật \"{name}\"? Plugin chạy bên trong Ruby với toàn quyền, nên chỉ bật cái bạn tin tưởng.",
+  "Plugin turned off.": "Đã tắt plugin.",
+  "Plugin turned on.": "Đã bật plugin.",
+  "Remove \"{name}\"? Its files are deleted from this PC.": "Gỡ \"{name}\"? Các tệp của nó sẽ bị xóa khỏi PC này.",
+  "Plugin removed.": "Đã gỡ plugin.",
+  "Add features to Ruby, or build your own. Plugins run inside Ruby, so only turn on ones you trust.": "Thêm tính năng cho Ruby, hoặc tự tạo. Plugin chạy bên trong Ruby, nên chỉ bật cái bạn tin tưởng.",
+  "Install": "Cài đặt",
+  "Unknown author": "Không rõ tác giả",
+  "No plugins yet. Click \"Open folder\", drop a plugin folder inside, then Refresh.": "Chưa có plugin. Nhấn \"Mở thư mục\", bỏ một thư mục plugin vào, rồi nhấn Làm mới.",
+  "How to make a plugin": "Cách tạo plugin",
+  "Add features to Ruby, or build your own.": "Thêm tính năng cho Ruby, hoặc tự tạo."
 }

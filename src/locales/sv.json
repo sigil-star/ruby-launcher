@@ -1479,5 +1479,18 @@
   "Make Ruby and Roblox look how you like. In-game originals are backed up, so anything you turn off goes back exactly as it was.": "Gör så att Ruby och Roblox ser ut som du vill. Originalen i spelet sparas, så allt du stänger av blir exakt som förut.",
   "Download Ruby Launcher": "Ladda ner Ruby Launcher",
   "Download Ruby Launcher button": "Knappen Ladda ner Ruby Launcher",
-  "Lets friends get Ruby. Discord shows at most two buttons, so it's hidden when Join and View Profile are both on.": "Låter vänner skaffa Ruby. Discord visar högst två knappar, så den döljs när Gå med och Visa profil båda är på."
+  "Lets friends get Ruby. Discord shows at most two buttons, so it's hidden when Join and View Profile are both on.": "Låter vänner skaffa Ruby. Discord visar högst två knappar, så den döljs när Gå med och Visa profil båda är på.",
+  "This plugin page isn't available.": "Den här pluginsidan är inte tillgänglig.",
+  "Plugin installed. Turn it on below.": "Plugin installerat. Slå på det nedan.",
+  "Enable \"{name}\"? Plugins run inside Ruby with full access, so only enable ones you trust.": "Aktivera \"{name}\"? Plugins körs inne i Ruby med full åtkomst, aktivera bara sådana du litar på.",
+  "Plugin turned off.": "Plugin avstängt.",
+  "Plugin turned on.": "Plugin påslaget.",
+  "Remove \"{name}\"? Its files are deleted from this PC.": "Ta bort \"{name}\"? Dess filer raderas från den här datorn.",
+  "Plugin removed.": "Plugin borttaget.",
+  "Add features to Ruby, or build your own. Plugins run inside Ruby, so only turn on ones you trust.": "Lägg till funktioner i Ruby, eller bygg egna. Plugins körs inne i Ruby, så slå bara på sådana du litar på.",
+  "Install": "Installera",
+  "Unknown author": "Okänd skapare",
+  "No plugins yet. Click \"Open folder\", drop a plugin folder inside, then Refresh.": "Inga plugins än. Klicka på \"Öppna mapp\", lägg in en pluginmapp och klicka på Uppdatera.",
+  "How to make a plugin": "Så gör du ett plugin",
+  "Add features to Ruby, or build your own.": "Lägg till funktioner i Ruby, eller bygg egna."
 }

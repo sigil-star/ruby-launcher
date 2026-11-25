@@ -1479,5 +1479,18 @@
   "Make Ruby and Roblox look how you like. In-game originals are backed up, so anything you turn off goes back exactly as it was.": "Ruby ve Roblox'u istediğin gibi görünür yap. Oyun içi orijinaller yedeklenir, kapattığın her şey tam olarak eski haline döner.",
   "Download Ruby Launcher": "Ruby Launcher'ı indir",
   "Download Ruby Launcher button": "Ruby Launcher'ı indir düğmesi",
-  "Lets friends get Ruby. Discord shows at most two buttons, so it's hidden when Join and View Profile are both on.": "Arkadaşların Ruby'yi edinebilir. Discord en fazla iki düğme gösterir, bu yüzden Katıl ve Profili gör ikisi de açıkken gizlenir."
+  "Lets friends get Ruby. Discord shows at most two buttons, so it's hidden when Join and View Profile are both on.": "Arkadaşların Ruby'yi edinebilir. Discord en fazla iki düğme gösterir, bu yüzden Katıl ve Profili gör ikisi de açıkken gizlenir.",
+  "This plugin page isn't available.": "Bu eklenti sayfası kullanılamıyor.",
+  "Plugin installed. Turn it on below.": "Eklenti kuruldu. Aşağıdan aç.",
+  "Enable \"{name}\"? Plugins run inside Ruby with full access, so only enable ones you trust.": "\"{name}\" açılsın mı? Eklentiler Ruby içinde tam erişimle çalışır, yalnızca güvendiklerini aç.",
+  "Plugin turned off.": "Eklenti kapatıldı.",
+  "Plugin turned on.": "Eklenti açıldı.",
+  "Remove \"{name}\"? Its files are deleted from this PC.": "\"{name}\" kaldırılsın mı? Dosyaları bu bilgisayardan silinir.",
+  "Plugin removed.": "Eklenti kaldırıldı.",
+  "Add features to Ruby, or build your own. Plugins run inside Ruby, so only turn on ones you trust.": "Ruby'ye özellik ekle ya da kendininkini yap. Eklentiler Ruby içinde çalışır, yalnızca güvendiklerini aç.",
+  "Install": "Kur",
+  "Unknown author": "Bilinmeyen yazar",
+  "No plugins yet. Click \"Open folder\", drop a plugin folder inside, then Refresh.": "Henüz eklenti yok. \"Klasörü aç\"a tıkla, içine bir eklenti klasörü koy ve Yenile'ye tıkla.",
+  "How to make a plugin": "Nasıl eklenti yapılır",
+  "Add features to Ruby, or build your own.": "Ruby'ye özellik ekle ya da kendininkini yap."
 }

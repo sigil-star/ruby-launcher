@@ -1479,5 +1479,18 @@
   "Make Ruby and Roblox look how you like. In-game originals are backed up, so anything you turn off goes back exactly as it was.": "Deixe o Ruby e o Roblox do seu jeito. Os originais do jogo ficam guardados, então tudo que você desligar volta exatamente como era.",
   "Download Ruby Launcher": "Baixar Ruby Launcher",
   "Download Ruby Launcher button": "Botão Baixar Ruby Launcher",
-  "Lets friends get Ruby. Discord shows at most two buttons, so it's hidden when Join and View Profile are both on.": "Deixa seus amigos pegarem o Ruby. O Discord mostra no máximo dois botões, então ele some quando Entrar e Ver perfil estão ligados."
+  "Lets friends get Ruby. Discord shows at most two buttons, so it's hidden when Join and View Profile are both on.": "Deixa seus amigos pegarem o Ruby. O Discord mostra no máximo dois botões, então ele some quando Entrar e Ver perfil estão ligados.",
+  "This plugin page isn't available.": "Esta página de plugin não está disponível.",
+  "Plugin installed. Turn it on below.": "Plugin instalado. Ative-o abaixo.",
+  "Enable \"{name}\"? Plugins run inside Ruby with full access, so only enable ones you trust.": "Ativar \"{name}\"? Plugins rodam dentro do Ruby com acesso total, então ative só os confiáveis.",
+  "Plugin turned off.": "Plugin desativado.",
+  "Plugin turned on.": "Plugin ativado.",
+  "Remove \"{name}\"? Its files are deleted from this PC.": "Remover \"{name}\"? Os arquivos dele são apagados deste PC.",
+  "Plugin removed.": "Plugin removido.",
+  "Add features to Ruby, or build your own. Plugins run inside Ruby, so only turn on ones you trust.": "Adicione recursos ao Ruby, ou crie os seus. Plugins rodam dentro do Ruby, então ative só os confiáveis.",
+  "Install": "Instalar",
+  "Unknown author": "Autor desconhecido",
+  "No plugins yet. Click \"Open folder\", drop a plugin folder inside, then Refresh.": "Nenhum plugin ainda. Clique em \"Abrir pasta\", coloque uma pasta de plugin dentro e clique em Atualizar.",
+  "How to make a plugin": "Como fazer um plugin",
+  "Add features to Ruby, or build your own.": "Adicione recursos ao Ruby, ou crie os seus."
 }

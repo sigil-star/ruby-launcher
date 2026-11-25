@@ -1,4 +1,4 @@
-// Hello Ruby — the smallest useful plugin. Copy this folder, change plugin.json, and build.
+// Hello Ruby — a small example plugin. Copy this folder, change plugin.json, and build.
 
 // A page in the left bar.
 ruby.registerPage({
@@ -8,10 +8,10 @@ ruby.registerPage({
   mount(container) {
     const clicks = Number(ruby.storage.get("clicks") || "0");
     const h = document.createElement("h1");
-    h.textContent = "Hello from " + ruby.name + " 👋";
+    h.textContent = "Hello " + (ruby.user.displayName || "there") + " 👋";
     const p = document.createElement("p");
     p.style.opacity = "0.7";
-    p.textContent = "Plugin API v" + ruby.apiVersion + ". You've clicked " + clicks + " time(s).";
+    p.textContent = ruby.name + " on Ruby v" + ruby.version + ". You've clicked " + clicks + " time(s).";
     const btn = document.createElement("button");
     btn.className = "btn btn-primary";
     btn.textContent = "Click me";
@@ -19,10 +19,28 @@ ruby.registerPage({
     btn.onclick = () => {
       n += 1;
       ruby.storage.set("clicks", String(n));
-      p.textContent = "Plugin API v" + ruby.apiVersion + ". You've clicked " + n + " time(s).";
+      p.textContent = ruby.name + " on Ruby v" + ruby.version + ". You've clicked " + n + " time(s).";
       ruby.toast("Hello! (" + n + ")");
     };
-    container.append(h, p, btn);
+    const link = document.createElement("button");
+    link.className = "btn btn-secondary";
+    link.textContent = "Open the docs";
+    link.onclick = async () => {
+      if (await ruby.confirm("Open the plugin docs in your browser?")) {
+        ruby.openExternal("https://github.com/sigil-star/ruby-launcher/blob/main/docs/PLUGINS.md");
+      }
+    };
+    container.append(h, p, btn, link);
+  },
+});
+
+// A tab inside the Customize page.
+ruby.registerCustomizeTab({
+  id: "tab",
+  label: "Hello",
+  icon: "star",
+  mount(container) {
+    container.innerHTML = "<h2 class='sub-title'>Hello from a plugin</h2><p class='muted small'>This Customize tab was added by the Hello Ruby example plugin.</p>";
   },
 });
 
@@ -38,7 +56,7 @@ ruby.registerSettings({
   },
 });
 
-// React to navigation.
-ruby.on("navigate", (route) => {
-  console.log("[hello-ruby] navigated to", route && route.name);
-});
+// React to events.
+ruby.on("navigate", (route) => console.log("[hello-ruby] navigated to", route && route.name));
+ruby.on("gameLaunch", (g) => ruby.toast("Have fun! (place " + (g && g.placeId) + ")"));
+ruby.onUnload(() => console.log("[hello-ruby] unloaded"));

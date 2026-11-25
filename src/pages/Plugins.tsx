@@ -1,8 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { call, win } from "../lib/ipc";
 import { loadPlugins, usePluginPages, usePluginSettings, type PluginInfo, type PluginSettings } from "../lib/plugins";
-import { useNav, useUi } from "../app/store";
+import { useUi } from "../app/store";
+import { usePluginHost } from "../app/pluginHost";
 import { t } from "../lib/i18n";
 import { askConfirm } from "../components/Confirm";
 import { Empty, ErrorState, Icon, SkeletonRows, Spinner } from "../components/ui";
@@ -85,12 +86,40 @@ export function PluginSettingsSections() {
 /** Manage installed plugins: turn them on or off, remove them, or open the folder to add more. */
 export function Plugins() {
   const { toast } = useUi();
-  const { go } = useNav();
+  const host = usePluginHost();
+  const fileRef = useRef<HTMLInputElement>(null);
+  const [installing, setInstalling] = useState(false);
   const q = useQuery({ queryKey: ["plugins"], queryFn: () => call<{ plugins: PluginInfo[]; dir: string }>("listPlugins") });
 
   const reload = async () => {
-    await loadPlugins((m, k) => toast(m, k), (name) => go({ name } as never));
+    await loadPlugins(host);
     q.refetch();
+  };
+
+  const install = async (list: FileList | null) => {
+    const files = list ? Array.from(list) : [];
+    if (!files.length) return;
+    setInstalling(true);
+    try {
+      const payload = await Promise.all(
+        files.map(async (f) => {
+          // Keep the folder-relative path when the browser gives one (webkitdirectory).
+          const rel = (f as File & { webkitRelativePath?: string }).webkitRelativePath || f.name;
+          const buf = new Uint8Array(await f.arrayBuffer());
+          let bin = "";
+          for (let i = 0; i < buf.length; i++) bin += String.fromCharCode(buf[i]);
+          return [rel, btoa(bin)];
+        }),
+      );
+      await call("installPluginFiles", payload);
+      await reload();
+      toast(t("Plugin installed. Turn it on below."));
+    } catch (e) {
+      toast(e instanceof Error ? e.message : String(e), "error");
+    } finally {
+      setInstalling(false);
+      if (fileRef.current) fileRef.current.value = "";
+    }
   };
 
   const toggle = async (p: PluginInfo) => {
@@ -130,6 +159,19 @@ export function Plugins() {
           <p className="muted small">{t("Add features to Ruby, or build your own. Plugins run inside Ruby, so only turn on ones you trust.")}</p>
         </div>
         <div className="plugins-actions">
+          <button className="btn btn-primary btn-small" onClick={() => fileRef.current?.click()} disabled={installing}>
+            {installing ? <Spinner size={16} /> : <><Icon name="plus-small" size={16} /> {t("Install")}</>}
+            <input
+              ref={fileRef}
+              type="file"
+              hidden
+              // @ts-expect-error non-standard folder-select attributes
+              webkitdirectory=""
+              directory=""
+              multiple
+              onChange={(e) => void install(e.target.files)}
+            />
+          </button>
           <button className="btn btn-secondary btn-small" onClick={() => call("openPluginsFolder")}>
             <Icon name="two-folders" size={16} /> {t("Open folder")}
           </button>

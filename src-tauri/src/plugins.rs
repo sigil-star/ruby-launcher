@@ -5,6 +5,7 @@
 //! frontend plugin host (see `src/lib/plugins.ts`); it never executes them itself. Plugins are
 //! off until the user turns them on, and the set of enabled ids lives in `plugins/enabled.json`.
 
+use base64::Engine;
 use crate::state::AppState;
 use serde::{Deserialize, Serialize};
 use serde_json::{json, Value};
@@ -58,11 +59,21 @@ fn load_manifest(dir: &Path) -> Option<Manifest> {
     if !safe_id(&m.id) || m.name.trim().is_empty() {
         return None;
     }
-    // The entry must stay inside the plugin folder.
-    if m.entry.contains("..") || m.entry.starts_with('/') || m.entry.contains('\\') {
+    if !entry_ok(&m.entry) {
         return None;
     }
     Some(m)
+}
+
+/// The entry must be a relative path staying inside the plugin folder. Reject anything that could
+/// escape it or point at an absolute path (including Windows "C:\\..." / "C:/...").
+fn entry_ok(entry: &str) -> bool {
+    !entry.is_empty()
+        && !entry.contains("..")
+        && !entry.starts_with('/')
+        && !entry.contains('\\')
+        && !entry.contains(':')
+        && !std::path::Path::new(entry).is_absolute()
 }
 
 /// Every installed plugin, each with its manifest, whether it's enabled, and (when enabled) its
@@ -160,6 +171,102 @@ fn copy_shallow(src: &Path, dest: &Path, depth: u8) -> Result<(), String> {
     Ok(())
 }
 
+/// A relative path inside a plugin that is safe to write (no escape, no absolute, shallow).
+fn safe_rel(rel: &str) -> Option<String> {
+    let p = rel.replace('\\', "/");
+    let p = p.trim_start_matches("./");
+    if p.is_empty() || p.starts_with('/') || p.contains("..") || p.contains(':') {
+        return None;
+    }
+    if p.split('/').count() > 6 || p.len() > 256 {
+        return None;
+    }
+    Some(p.to_string())
+}
+
+/// Install a plugin from files the user picked in Ruby (a folder, or a single `.zip`). `files` is
+/// a JSON array of `[relativePath, base64Bytes]`. The set must contain a valid `plugin.json`.
+/// Everything is written under `plugins/<id>/`, the plugin stays disabled until the user turns it
+/// on, and paths that try to escape the folder are rejected.
+pub fn install_files(state: &Arc<AppState>, files: Value) -> Result<Value, String> {
+    let arr = files.as_array().ok_or("no files")?;
+    // Gather (relpath, bytes). A lone .zip is unpacked first.
+    let mut items: Vec<(String, Vec<u8>)> = vec![];
+    for row in arr {
+        let rel = row.get(0).and_then(|v| v.as_str()).unwrap_or("");
+        let b64 = row.get(1).and_then(|v| v.as_str()).unwrap_or("");
+        let bytes = base64::engine::general_purpose::STANDARD.decode(b64).map_err(|_| "bad file data")?;
+        if bytes.len() > 10 * 1024 * 1024 {
+            return Err("a file is over 10 MB".into());
+        }
+        if rel.to_ascii_lowercase().ends_with(".zip") {
+            let mut zip = zip::ZipArchive::new(std::io::Cursor::new(bytes)).map_err(|e| format!("not a valid zip: {e}"))?;
+            for i in 0..zip.len() {
+                let mut f = zip.by_index(i).map_err(|e| e.to_string())?;
+                if !f.is_file() {
+                    continue;
+                }
+                // enclosed_name already rejects absolute paths and `..` escapes.
+                let Some(name) = f.enclosed_name().map(|p| p.to_string_lossy().replace('\\', "/")) else { continue };
+                let mut buf = Vec::new();
+                std::io::Read::read_to_end(&mut f, &mut buf).map_err(|e| e.to_string())?;
+                if buf.len() > 10 * 1024 * 1024 {
+                    return Err("a file in the zip is over 10 MB".into());
+                }
+                items.push((name, buf));
+            }
+        } else {
+            items.push((rel.to_string(), bytes));
+        }
+    }
+    if items.len() > 200 {
+        return Err("too many files for one plugin".into());
+    }
+    // A zip often wraps everything in one top folder; drop a shared leading segment.
+    let strip = common_prefix(&items);
+    // Find and validate the manifest.
+    let manifest_raw = items
+        .iter()
+        .find(|(p, _)| p.replace('\\', "/").trim_start_matches(&strip as &str).trim_start_matches('/') == "plugin.json")
+        .map(|(_, b)| b.clone())
+        .ok_or("no plugin.json in what you picked")?;
+    let m: Manifest = serde_json::from_slice(&manifest_raw).map_err(|_| "plugin.json isn't valid")?;
+    if !safe_id(&m.id) || m.name.trim().is_empty() || !entry_ok(&m.entry) {
+        return Err("plugin.json needs a valid id, name and entry".into());
+    }
+    let dest = plugins_dir(state).join(&m.id);
+    let _ = std::fs::create_dir_all(&dest);
+    for (p, bytes) in &items {
+        let rel = p.replace('\\', "/");
+        let rel = rel.trim_start_matches(&strip as &str).trim_start_matches('/');
+        let Some(safe) = safe_rel(rel) else { continue };
+        let to = dest.join(&safe);
+        if let Some(d) = to.parent() {
+            let _ = std::fs::create_dir_all(d);
+        }
+        let _ = std::fs::write(&to, bytes);
+    }
+    // Make sure the entry file exists after writing.
+    if !dest.join(&m.entry).is_file() {
+        let _ = std::fs::remove_dir_all(&dest);
+        return Err("the plugin's entry file is missing".into());
+    }
+    Ok(list(state))
+}
+
+/// If every path shares a first folder segment (as zips often do), return it (with trailing /).
+fn common_prefix(items: &[(String, Vec<u8>)]) -> String {
+    let first = items.first().map(|(p, _)| p.replace('\\', "/"));
+    let Some(first) = first else { return String::new() };
+    let Some((seg, _)) = first.split_once('/') else { return String::new() };
+    let prefix = format!("{seg}/");
+    if items.iter().all(|(p, _)| p.replace('\\', "/").starts_with(&prefix)) {
+        prefix
+    } else {
+        String::new()
+    }
+}
+
 pub fn open_folder(state: &Arc<AppState>) -> Result<Value, String> {
     let dir = plugins_dir(state);
     let _ = std::fs::create_dir_all(&dir);
@@ -168,4 +275,42 @@ pub fn open_folder(state: &Arc<AppState>) -> Result<Value, String> {
         let _ = std::process::Command::new("explorer").arg(&dir).spawn();
     }
     Ok(json!({ "ok": true, "dir": dir.to_string_lossy() }))
+}
+
+#[cfg(test)]
+mod tests {
+    use super::{entry_ok, safe_id, safe_rel};
+
+    #[test]
+    fn ids() {
+        assert!(safe_id("hello-ruby"));
+        assert!(safe_id("a.b-2"));
+        assert!(!safe_id("")); // empty
+        assert!(!safe_id("Hello")); // uppercase
+        assert!(!safe_id("../escape"));
+        assert!(!safe_id("a/b")); // slash
+        assert!(!safe_id("a b")); // space
+    }
+
+    #[test]
+    fn entries() {
+        assert!(entry_ok("index.js"));
+        assert!(entry_ok("src/main.js"));
+        assert!(!entry_ok("")); // empty
+        assert!(!entry_ok("../index.js")); // escape
+        assert!(!entry_ok("/etc/passwd")); // absolute unix
+        assert!(!entry_ok("C:/Windows/x.js")); // absolute windows (colon)
+        assert!(!entry_ok("sub\\x.js")); // backslash
+    }
+
+    #[test]
+    fn rel_paths() {
+        assert_eq!(safe_rel("index.js").as_deref(), Some("index.js"));
+        assert_eq!(safe_rel("./a/b.js").as_deref(), Some("a/b.js"));
+        assert!(safe_rel("../escape.js").is_none());
+        assert!(safe_rel("/abs.js").is_none());
+        assert!(safe_rel("C:/x.js").is_none()); // colon
+        assert!(safe_rel("a/../../b").is_none());
+        assert!(safe_rel(&"x/".repeat(8)).is_none()); // too deep
+    }
 }

@@ -38,3 +38,10 @@ dist-setup/
 scripts/export-dsk.cjs
 scripts/i18n-brief.md
 scripts/i18n-translate-brief.md
+
+# Internal working docs (AI prompts, roadmap, reverse-engineering notes) — not for the public repo
+docs/codex-emote-wheel-prompt.md
+docs/design-prompts.md
+docs/beta-testers.md
+docs/release-plan.md
+docs/roblox-app-reference.md

@@ -1479,5 +1479,18 @@
   "Make Ruby and Roblox look how you like. In-game originals are backed up, so anything you turn off goes back exactly as it was.": "Настройте внешний вид Ruby и Roblox. Оригиналы в игре сохраняются, так что всё, что вы отключите, вернётся в точности как было.",
   "Download Ruby Launcher": "Скачать Ruby Launcher",
   "Download Ruby Launcher button": "Кнопка «Скачать Ruby Launcher»",
-  "Lets friends get Ruby. Discord shows at most two buttons, so it's hidden when Join and View Profile are both on.": "Друзья смогут скачать Ruby. Discord показывает не больше двух кнопок, поэтому она скрыта, если включены «Присоединиться» и «Профиль»."
+  "Lets friends get Ruby. Discord shows at most two buttons, so it's hidden when Join and View Profile are both on.": "Друзья смогут скачать Ruby. Discord показывает не больше двух кнопок, поэтому она скрыта, если включены «Присоединиться» и «Профиль».",
+  "This plugin page isn't available.": "Эта страница плагина недоступна.",
+  "Plugin installed. Turn it on below.": "Плагин установлен. Включите его ниже.",
+  "Enable \"{name}\"? Plugins run inside Ruby with full access, so only enable ones you trust.": "Включить «{name}»? Плагины работают внутри Ruby с полным доступом, включайте только доверенные.",
+  "Plugin turned off.": "Плагин выключен.",
+  "Plugin turned on.": "Плагин включён.",
+  "Remove \"{name}\"? Its files are deleted from this PC.": "Удалить «{name}»? Его файлы будут удалены с этого ПК.",
+  "Plugin removed.": "Плагин удалён.",
+  "Add features to Ruby, or build your own. Plugins run inside Ruby, so only turn on ones you trust.": "Добавьте Ruby функции или создайте свои. Плагины работают внутри Ruby, включайте только доверенные.",
+  "Install": "Установить",
+  "Unknown author": "Автор неизвестен",
+  "No plugins yet. Click \"Open folder\", drop a plugin folder inside, then Refresh.": "Плагинов пока нет. Нажмите «Открыть папку», положите туда папку плагина и нажмите «Обновить».",
+  "How to make a plugin": "Как создать плагин",
+  "Add features to Ruby, or build your own.": "Добавьте Ruby функции или создайте свои."
 }

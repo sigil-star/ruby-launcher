@@ -2,6 +2,8 @@ import { ToastsApp } from "./app/ToastsApp";
 import { RubySettings } from "./pages/RubySettings";
 import { Plugins, PluginView } from "./pages/Plugins";
 import { emitRubyEvent, loadPlugins } from "./lib/plugins";
+import { usePluginHost } from "./app/pluginHost";
+import { on } from "./lib/ipc";
 import { AccountGate } from "./components/AccountGate";
 import { CommunitySearch } from "./pages/CommunitySearch";
 import { QueryClient, QueryClientProvider, useQuery } from "@tanstack/react-query";
@@ -10,7 +12,7 @@ import { createRoot } from "react-dom/client";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 import { installSmoothScroll } from "./lib/smoothScroll";
 import { Shell } from "./app/Shell";
-import { NavProvider, SessionProvider, UiProvider, useNav, useSession, useUi } from "./app/store";
+import { NavProvider, SessionProvider, UiProvider, useNav, useSession } from "./app/store";
 import { Center, Spinner } from "./components/ui";
 import { call, rbx } from "./lib/ipc";
 import { Avatar } from "./pages/Avatar";
@@ -165,24 +167,30 @@ function ScrollReset() {
   return null;
 }
 
-// Route names a plugin may navigate to (param-less built-in pages only).
-const PLUGIN_NAV = new Set(["home", "chat", "avatar", "mods", "plugins", "rubySettings", "settings", "friends", "communities", "inbox", "captures", "robux"]);
-
-/** Loads enabled plugins once signed in, and tells them when the route changes. */
+/** Loads enabled plugins once signed in, and relays Ruby events to them. */
 function PluginLoader() {
-  const { toast } = useUi();
-  const { go, route } = useNav();
+  const host = usePluginHost();
+  const { route } = useNav();
+  const ready = host.version !== "";
   useEffect(() => {
-    void loadPlugins(
-      (m, k) => toast(m, k),
-      (name) => {
-        if (PLUGIN_NAV.has(name)) go({ name } as never);
-      },
-    );
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+    if (ready) void loadPlugins(host);
+  }, [ready]); // eslint-disable-line react-hooks/exhaustive-deps
+  // Route changes.
   useEffect(() => {
     emitRubyEvent("navigate", { name: route.name });
   }, [route]);
+  // Game launch / leave, from the native session events.
+  useEffect(() => {
+    const subs = [
+      on<{ placeId?: number; jobId?: string }>("roblox-game-joined", (p) => emitRubyEvent("gameLaunch", p)),
+      on<{ running: boolean }>("roblox-session-state", (p) => {
+        if (p && p.running === false) emitRubyEvent("gameLeave", {});
+      }),
+    ];
+    return () => {
+      subs.forEach((p) => void p.then((un) => un()).catch(() => undefined));
+    };
+  }, []);
   return null;
 }
 

@@ -1479,5 +1479,18 @@
   "Make Ruby and Roblox look how you like. In-game originals are backed up, so anything you turn off goes back exactly as it was.": "按你的喜好打造 Ruby 和 Roblox 的外观。游戏内原始文件会被备份，关闭的内容都会原样恢复。",
   "Download Ruby Launcher": "下载 Ruby Launcher",
   "Download Ruby Launcher button": "“下载 Ruby Launcher”按钮",
-  "Lets friends get Ruby. Discord shows at most two buttons, so it's hidden when Join and View Profile are both on.": "让好友也能获取 Ruby。Discord 最多显示两个按钮，因此当“加入”和“查看个人资料”都开启时会隐藏。"
+  "Lets friends get Ruby. Discord shows at most two buttons, so it's hidden when Join and View Profile are both on.": "让好友也能获取 Ruby。Discord 最多显示两个按钮，因此当“加入”和“查看个人资料”都开启时会隐藏。",
+  "This plugin page isn't available.": "该插件页面不可用。",
+  "Plugin installed. Turn it on below.": "插件已安装。在下方开启它。",
+  "Enable \"{name}\"? Plugins run inside Ruby with full access, so only enable ones you trust.": "启用“{name}”？插件在 Ruby 内以完全权限运行，只启用你信任的插件。",
+  "Plugin turned off.": "插件已关闭。",
+  "Plugin turned on.": "插件已开启。",
+  "Remove \"{name}\"? Its files are deleted from this PC.": "移除“{name}”？它的文件将从此电脑删除。",
+  "Plugin removed.": "插件已移除。",
+  "Add features to Ruby, or build your own. Plugins run inside Ruby, so only turn on ones you trust.": "为 Ruby 添加功能，或自己制作。插件在 Ruby 内运行，只开启你信任的插件。",
+  "Install": "安装",
+  "Unknown author": "作者未知",
+  "No plugins yet. Click \"Open folder\", drop a plugin folder inside, then Refresh.": "还没有插件。点击“打开文件夹”，把插件文件夹放进去，然后点刷新。",
+  "How to make a plugin": "如何制作插件",
+  "Add features to Ruby, or build your own.": "为 Ruby 添加功能，或自己制作。"
 }
