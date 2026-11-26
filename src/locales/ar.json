@@ -1492,5 +1492,19 @@
   "Unknown author": "مؤلف غير معروف",
   "No plugins yet. Click \"Open folder\", drop a plugin folder inside, then Refresh.": "لا توجد إضافات بعد. انقر \"فتح المجلد\"، وضَع مجلد الإضافة بداخله، ثم انقر تحديث.",
   "How to make a plugin": "كيفية صنع إضافة",
-  "Add features to Ruby, or build your own.": "أضِف ميزات إلى Ruby، أو اصنع ميزاتك."
+  "Add features to Ruby, or build your own.": "أضِف ميزات إلى Ruby، أو اصنع ميزاتك.",
+  "\"{name}\" hasn't been reviewed by Ruby. Plugins run with full access, so only enable it if you trust whoever made it.": "لم تتم مراجعة \"{name}\" من Ruby. تعمل الإضافات بصلاحية كاملة، لذا فعّلها فقط إن كنت تثق بمن صنعها.",
+  "Updated {name}.": "تم تحديث {name}.",
+  "Installed {name}. Turn it on under Installed.": "تم تثبيت {name}. فعّلها من المثبتة.",
+  "Submit a plugin": "إرسال إضافة",
+  "Featured": "المميزة",
+  "Installed": "المثبتة",
+  "Every featured plugin was reviewed before it was listed. Ruby checks each file against the signed list before installing it.": "تمت مراجعة كل إضافة مميزة قبل إدراجها. يتحقق Ruby من كل ملف مقابل القائمة الموقّعة قبل تثبيته.",
+  "Update": "تحديث",
+  "Replace with reviewed": "استبدال بالنسخة المراجَعة",
+  "Reviewed": "تمت مراجعتها",
+  "No featured plugins yet. Check back soon, or submit your own.": "لا توجد إضافات مميزة بعد. عُد لاحقًا أو أرسل إضافتك.",
+  "Install from folder": "التثبيت من مجلد",
+  "Not reviewed": "غير مراجَعة",
+  "No plugins installed yet. Pick one from Featured, or install your own from a folder.": "لا توجد إضافات مثبتة بعد. اختر واحدة من المميزة أو ثبّت إضافتك من مجلد."
 }

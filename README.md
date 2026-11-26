@@ -55,7 +55,11 @@ The session cookie is stored locally and is only ever sent to `*.roblox.com` / `
 - **Contributions** are welcome — see [CONTRIBUTING.md](CONTRIBUTING.md).
 - **Build on Ruby, don't fork it:** Ruby has a plugin API so you can add features and ship
   your own projects *on top of* Ruby without copying or rebranding it. See
-  [docs/PLUGINS.md](docs/PLUGINS.md).
+  [docs/PLUGINS.md](docs/PLUGINS.md), especially **Writing plugins safely**.
+- **Get featured:** submit your plugin to
+  [sigil-star/ruby-plugins](https://github.com/sigil-star/ruby-plugins). Reviewed plugins show
+  up under **Plugins › Featured** and are verified file-by-file against a signed list before
+  they install.
 
 ## License & name
 

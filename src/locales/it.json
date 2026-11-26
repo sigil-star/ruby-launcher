@@ -1492,5 +1492,19 @@
   "Unknown author": "Autore sconosciuto",
   "No plugins yet. Click \"Open folder\", drop a plugin folder inside, then Refresh.": "Ancora nessun plugin. Clicca \"Apri cartella\", metti dentro una cartella di plugin e clicca Aggiorna.",
   "How to make a plugin": "Come creare un plugin",
-  "Add features to Ruby, or build your own.": "Aggiungi funzioni a Ruby, o creane di tue."
+  "Add features to Ruby, or build your own.": "Aggiungi funzioni a Ruby, o creane di tue.",
+  "\"{name}\" hasn't been reviewed by Ruby. Plugins run with full access, so only enable it if you trust whoever made it.": "\"{name}\" non è stato verificato da Ruby. I plugin hanno accesso completo, quindi attivalo solo se ti fidi di chi l'ha fatto.",
+  "Updated {name}.": "{name} aggiornato.",
+  "Installed {name}. Turn it on under Installed.": "{name} installato. Attivalo in Installati.",
+  "Submit a plugin": "Invia un plugin",
+  "Featured": "In evidenza",
+  "Installed": "Installati",
+  "Every featured plugin was reviewed before it was listed. Ruby checks each file against the signed list before installing it.": "Ogni plugin in evidenza è stato verificato prima di essere elencato. Ruby controlla ogni file con l'elenco firmato prima di installarlo.",
+  "Update": "Aggiorna",
+  "Replace with reviewed": "Sostituisci con la versione verificata",
+  "Reviewed": "Verificato",
+  "No featured plugins yet. Check back soon, or submit your own.": "Ancora nessun plugin in evidenza. Torna presto o invia il tuo.",
+  "Install from folder": "Installa da cartella",
+  "Not reviewed": "Non verificato",
+  "No plugins installed yet. Pick one from Featured, or install your own from a folder.": "Nessun plugin installato. Scegline uno in In evidenza o installa il tuo da una cartella."
 }

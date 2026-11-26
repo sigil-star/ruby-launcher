@@ -267,6 +267,8 @@ pub async fn dispatch(
 
         // Plugins
         "listPlugins" => Ok(crate::plugins::list(&state)),
+        "pluginRegistry" => Ok(crate::plugins::registry(&state).await),
+        "installFeaturedPlugin" => crate::plugins::install_featured(&state, arg_str(&args, 0).unwrap_or("")).await,
         "installPluginFiles" => crate::plugins::install_files(&state, arg(&args, 0).cloned().unwrap_or(json!([]))),
         "setPluginEnabled" => crate::plugins::set_enabled(&state, arg_str(&args, 0).unwrap_or(""), arg(&args, 1).and_then(|v| v.as_bool()).unwrap_or(false)),
         "removePlugin" => crate::plugins::remove(&state, arg_str(&args, 0).unwrap_or("")),

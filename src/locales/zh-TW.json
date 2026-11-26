@@ -1492,5 +1492,19 @@
   "Unknown author": "作者不明",
   "No plugins yet. Click \"Open folder\", drop a plugin folder inside, then Refresh.": "還沒有外掛。點「開啟資料夾」，把外掛資料夾放進去，然後點重新整理。",
   "How to make a plugin": "如何製作外掛",
-  "Add features to Ruby, or build your own.": "為 Ruby 新增功能，或自己製作。"
+  "Add features to Ruby, or build your own.": "為 Ruby 新增功能，或自己製作。",
+  "\"{name}\" hasn't been reviewed by Ruby. Plugins run with full access, so only enable it if you trust whoever made it.": "「{name}」未經 Ruby 審核。外掛以完整權限執行，只有在你信任作者時才啟用。",
+  "Updated {name}.": "已更新 {name}。",
+  "Installed {name}. Turn it on under Installed.": "已安裝 {name}。請在「已安裝」中開啟。",
+  "Submit a plugin": "提交外掛",
+  "Featured": "精選",
+  "Installed": "已安裝",
+  "Every featured plugin was reviewed before it was listed. Ruby checks each file against the signed list before installing it.": "每個精選外掛在上架前都經過審核。Ruby 會在安裝前將每個檔案與簽章清單核對。",
+  "Update": "更新",
+  "Replace with reviewed": "改用審核版本",
+  "Reviewed": "已審核",
+  "No featured plugins yet. Check back soon, or submit your own.": "目前沒有精選外掛。之後再來看看，或提交你自己的外掛。",
+  "Install from folder": "從資料夾安裝",
+  "Not reviewed": "未審核",
+  "No plugins installed yet. Pick one from Featured, or install your own from a folder.": "還沒有安裝外掛。從「精選」挑一個，或從資料夾安裝你自己的外掛。"
 }

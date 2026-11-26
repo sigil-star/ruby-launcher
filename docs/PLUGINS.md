@@ -8,20 +8,36 @@ Ruby loads enabled plugins and gives each one a single `ruby` object to work wit
 > your plugin its own name — the Ruby name and logo are reserved (see
 > [TRADEMARK.md](../TRADEMARK.md)).
 
-## Install a plugin
+- [Installing plugins](#installing-plugins)
+- [Making a plugin](#making-a-plugin)
+- [The `ruby` API](#the-ruby-api-v1)
+- [Writing plugins safely](#writing-plugins-safely) ← read this before you publish
+- [Getting featured](#getting-featured)
 
-1. In Ruby, open **Plugins** (the menu, or Settings › General › Plugins).
-2. Click **Install** and pick the plugin's folder — or click **Open folder**, drop the folder
-   in, and click **Refresh**.
-3. Turn the plugin **on**. Ruby asks you to confirm, because plugins run inside Ruby with full
-   access — only enable ones you trust.
+---
 
-## Folder layout
+## Installing plugins
+
+Open **Plugins** in Ruby (the menu, or Settings › General › Plugins).
+
+- **Featured** — plugins that were reviewed before they were listed. Ruby downloads them from
+  the [ruby-plugins](https://github.com/sigil-star/ruby-plugins) repo, pinned to the exact
+  reviewed version, and checks every file's SHA-256 against a list signed with Ruby's release
+  key. If anything doesn't match, nothing is installed. These show a green **Reviewed** badge.
+- **Installed** — everything on this PC. You can also **Install from folder** to try a plugin
+  that isn't featured; it shows an orange **Not reviewed** badge.
+
+Plugins are **off** until you turn them on, and Ruby asks you to confirm first.
+
+---
+
+## Making a plugin
 
 ```
 my-plugin/
   plugin.json
   index.js
+  README.md        (recommended)
 ```
 
 ### `plugin.json`
@@ -37,13 +53,13 @@ my-plugin/
 }
 ```
 
-- `id` — a unique, lowercase slug (letters, digits, `-`, `.`). It names the folder and your
-  storage keys.
-- `entry` — the JavaScript file to run (defaults to `index.js`). It must stay inside the folder.
+- `id` — unique, lowercase letters, digits, `-` and `.`. It must match the folder name.
+- `version` — bump it every time you change the plugin (`1.0.1`, `1.1.0`, …).
+- `entry` — the JavaScript file to run, relative to the folder (defaults to `index.js`).
 
 ### `index.js`
 
-Your code runs with one injected name, `ruby`. No imports, no bundler needed.
+Your code runs with one injected name, `ruby`. No imports and no bundler.
 
 ```js
 ruby.registerPage({
@@ -51,16 +67,23 @@ ruby.registerPage({
   label: "My Plugin",
   icon: "star",
   mount(container) {
-    container.innerHTML = "<h1>Hello from my plugin!</h1>";
+    const h = document.createElement("h1");
+    h.textContent = "Hello from my plugin!";
     const btn = document.createElement("button");
+    btn.className = "btn btn-primary";
     btn.textContent = "Say hi";
-    btn.onclick = () => ruby.toast("Hi from " + ruby.name + "!");
-    container.append(btn);
-    // Optional: return a cleanup function, called when the user leaves the page.
-    return () => { /* tear down timers, listeners, etc. */ };
+    btn.onclick = () => ruby.toast("Hi " + ruby.user.displayName + "!");
+    container.append(h, btn);
+    return () => { /* clean up timers and listeners here */ };
   },
 });
 ```
+
+To try it: Plugins › Installed › **Install from folder**, pick your folder, turn it on. After
+editing, click **Refresh** to reload it. A full example lives in
+[`examples/hello-ruby-plugin`](../examples/hello-ruby-plugin).
+
+---
 
 ## The `ruby` API (v1)
 
@@ -68,36 +91,97 @@ ruby.registerPage({
 |---|---|
 | `ruby.id` / `ruby.name` | Your plugin's id and name. |
 | `ruby.apiVersion` | The API version (currently `1`). |
-| `ruby.registerPage({ id, label, icon?, mount })` | Adds a button to the left bar. `mount(container)` draws your page into a plain DOM element; it may return a cleanup function. |
-| `ruby.registerSettings({ id, title, mount })` | Adds a section under Ruby Settings › General. Same `mount` shape. |
-| `ruby.registerCustomizeTab({ id, label, icon?, mount })` | Adds a tab to the Customize page. Same `mount` shape. |
-| `ruby.on(event, cb)` | Listen for `"navigate"`, `"gameLaunch"`, or `"gameLeave"`. |
-| `ruby.onUnload(cb)` | Run `cb` when the plugin is turned off or reloaded (clear timers/listeners). |
-| `ruby.user` | Public info about the signed-in user: `{ id, name, displayName }`. Never the Roblox session. |
 | `ruby.version` | Ruby's version string. |
-| `ruby.confirm(message)` | Ask the user to confirm; returns a `Promise<boolean>`. |
-| `ruby.openExternal(url)` | Open an `https` link in the user's browser. |
+| `ruby.user` | Public info about the signed-in user: `{ id, name, displayName }`. Never the Roblox session. |
+| `ruby.registerPage({ id, label, icon?, mount })` | Adds a button to the left bar. `mount(container)` draws into a plain DOM element and may return a cleanup function. |
+| `ruby.registerSettings({ id, title, mount })` | Adds a section under Ruby Settings › General. |
+| `ruby.registerCustomizeTab({ id, label, icon?, mount })` | Adds a tab to the Customize page. |
+| `ruby.on(event, cb)` | `"navigate"` (`{ name }`), `"gameLaunch"` (`{ placeId, jobId }`), `"gameLeave"`. |
+| `ruby.onUnload(cb)` | Runs when the plugin is turned off or reloaded. |
 | `ruby.toast(message, kind?)` | Show a toast. `kind` may be `"error"`. |
-| `ruby.navigate(name)` | Go to a built-in page by name (`"home"`, `"avatar"`, `"chat"`, `"mods"`, `"plugins"`, …). |
-| `ruby.storage.get(key)` / `ruby.storage.set(key, value)` | Per-plugin string storage, saved on this PC only. |
+| `ruby.confirm(message)` | Ask the user; returns `Promise<boolean>`. |
+| `ruby.openExternal(url)` | Open an `https` link in the user's browser. |
+| `ruby.navigate(name)` | Go to a built-in page: `"home"`, `"avatar"`, `"chat"`, `"mods"`, `"plugins"`, `"friends"`, … |
+| `ruby.storage.get(key)` / `ruby.storage.set(key, value)` | Per-plugin string storage, on this PC only. |
 
-`icon` names are Ruby's built-in icons (e.g. `star`, `compass`, `chat`, `person`); an unknown
-name just shows no icon.
+`icon` is one of Ruby's built-in icon names (`star`, `compass`, `chat`, `person`, …).
 
-## Security — read this
+---
 
-- Plugins run **inside Ruby, with Ruby's privileges**. A malicious plugin could do real harm.
-  That's why plugins are **off by default** and each one asks for confirmation before it runs.
-- The `ruby` API on purpose does **not** hand you the Roblox session cookie or a raw
-  authenticated request method. Don't try to work around that, and never send a user's Roblox
-  session anywhere.
-- Only install plugins from people you trust, and read the code first — it's right there in the
-  folder.
+## Writing plugins safely
+
+Plugins run **inside Ruby, with Ruby's privileges**. That's what makes them powerful, and it's
+why a careless or malicious plugin can do real harm to the person who installs it. These rules
+are not optional for featured plugins — the review checks every one of them, and the automatic
+checker rejects most violations before a human even looks.
+
+### Never touch the Roblox session or Ruby's internals
+
+- Don't read `document.cookie`, and never try to get, store or send anyone's `.ROBLOSECURITY`.
+- Don't call Ruby's native layer directly (`__TAURI__`, `__TAURI_INTERNALS__`, `invoke`, IPC).
+  Use only the `ruby` object. If you need something it doesn't offer, open an issue asking for
+  it instead of working around it.
+- Don't reach into Ruby's pages or patch its code. Draw only inside the `container` you're given.
+
+### No network, no hidden code
+
+- No `fetch`, `XMLHttpRequest`, `WebSocket` or other ways to send data off the PC. Ruby's
+  content policy blocks most of these anyway; featured plugins may not try.
+- No `eval`, `new Function`, `import()`, or loading scripts from anywhere. Everything your plugin
+  runs must be in its folder, readable.
+- No minified, obfuscated or encoded code (`atob` blobs, giant one-line files). Reviewers must be
+  able to read every line. Ship your source, not a build.
+
+### Handle data and the page carefully
+
+- Build UI with `document.createElement` and `textContent`. Don't build HTML from strings
+  (`innerHTML`, `outerHTML`, `insertAdjacentHTML`) — it's the easiest way to create an injection
+  bug.
+- Keep your data in `ruby.storage`, not `localStorage`/`sessionStorage`/IndexedDB directly, so
+  you can't read or overwrite other plugins' or Ruby's data.
+- Don't open windows or pop-ups yourself; use `ruby.openExternal` for links (https only).
+
+### Be a good citizen
+
+- Clean up in the function `mount` returns, and in `ruby.onUnload`: clear timers, intervals and
+  event listeners. A plugin that keeps running after it's turned off is a bug.
+- Ask with `ruby.confirm` before doing anything the user might not expect.
+- Respect Roblox's Terms of Use. No cheats, exploits, automation that breaks Roblox's rules, or
+  anything that collects other players' data.
+- Keep it small: no more than 200 files and 10 MB per file; most plugins need two files.
+
+### What users should know
+
+- **Reviewed** (featured) plugins were read by a person and are verified byte-for-byte on
+  install. **Not reviewed** plugins weren't — only enable those from people you trust.
+- Reviewed doesn't mean risk-free; it means someone checked it against these rules. Report
+  anything suspicious as an issue on the ruby-plugins repo.
+
+---
+
+## Getting featured
+
+Featured plugins come from the public
+[**sigil-star/ruby-plugins**](https://github.com/sigil-star/ruby-plugins) repo.
+
+1. Fork the repo and add your plugin as `plugins/<your-id>/` (`plugin.json`, `index.js`,
+   `README.md`).
+2. Open a pull request. The template asks you to confirm you followed the rules above.
+3. An automatic check runs on your pull request (manifest, file types and sizes, banned
+   patterns). Fix anything it flags.
+4. The maintainer reviews the code by hand. Changes may be requested.
+5. Once merged, the plugin is added to the signed featured list on the next update, and appears
+   under **Plugins › Featured** in Ruby.
+
+Updates work the same way: open a pull request that changes your plugin and bumps its
+`version`. Ruby offers the update once the new version is reviewed and listed.
+
+See the ruby-plugins repo's [submission guide](https://github.com/sigil-star/ruby-plugins#submit-a-plugin)
+for the full checklist.
+
+---
 
 ## Roadmap
 
-- A reviewed, in-app plugin list you can browse and install from.
-- Stronger isolation (running plugins in a sandbox so the API is the only thing they can touch).
-- More events and API surface, versioned so old plugins keep working.
-
-Found a bug or want more API? Open an issue.
+- Running plugins in an isolated sandbox, so the `ruby` API is the only thing they can reach.
+- More events and API, versioned so older plugins keep working.

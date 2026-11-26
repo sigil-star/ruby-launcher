@@ -1492,5 +1492,19 @@
   "Unknown author": "Bilinmeyen yazar",
   "No plugins yet. Click \"Open folder\", drop a plugin folder inside, then Refresh.": "Henüz eklenti yok. \"Klasörü aç\"a tıkla, içine bir eklenti klasörü koy ve Yenile'ye tıkla.",
   "How to make a plugin": "Nasıl eklenti yapılır",
-  "Add features to Ruby, or build your own.": "Ruby'ye özellik ekle ya da kendininkini yap."
+  "Add features to Ruby, or build your own.": "Ruby'ye özellik ekle ya da kendininkini yap.",
+  "\"{name}\" hasn't been reviewed by Ruby. Plugins run with full access, so only enable it if you trust whoever made it.": "\"{name}\" Ruby tarafından incelenmedi. Eklentiler tam erişimle çalışır, yalnızca yapan kişiye güveniyorsan aç.",
+  "Updated {name}.": "{name} güncellendi.",
+  "Installed {name}. Turn it on under Installed.": "{name} kuruldu. Kurulu sekmesinden aç.",
+  "Submit a plugin": "Eklenti gönder",
+  "Featured": "Öne çıkanlar",
+  "Installed": "Kurulu",
+  "Every featured plugin was reviewed before it was listed. Ruby checks each file against the signed list before installing it.": "Öne çıkan her eklenti listelenmeden önce incelendi. Ruby kurmadan önce her dosyayı imzalı listeyle karşılaştırır.",
+  "Update": "Güncelle",
+  "Replace with reviewed": "İncelenmiş sürümle değiştir",
+  "Reviewed": "İncelendi",
+  "No featured plugins yet. Check back soon, or submit your own.": "Henüz öne çıkan eklenti yok. Sonra tekrar bak ya da kendininkini gönder.",
+  "Install from folder": "Klasörden kur",
+  "Not reviewed": "İncelenmedi",
+  "No plugins installed yet. Pick one from Featured, or install your own from a folder.": "Henüz kurulu eklenti yok. Öne çıkanlardan seç ya da kendininkini bir klasörden kur."
 }

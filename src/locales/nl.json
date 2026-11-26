@@ -1492,5 +1492,19 @@
   "Unknown author": "Onbekende maker",
   "No plugins yet. Click \"Open folder\", drop a plugin folder inside, then Refresh.": "Nog geen plugins. Klik op \"Map openen\", zet er een pluginmap in en klik op Vernieuwen.",
   "How to make a plugin": "Een plugin maken",
-  "Add features to Ruby, or build your own.": "Voeg functies toe aan Ruby, of maak je eigen."
+  "Add features to Ruby, or build your own.": "Voeg functies toe aan Ruby, of maak je eigen.",
+  "\"{name}\" hasn't been reviewed by Ruby. Plugins run with full access, so only enable it if you trust whoever made it.": "\"{name}\" is niet door Ruby gecontroleerd. Plugins hebben volledige toegang, zet hem alleen aan als je de maker vertrouwt.",
+  "Updated {name}.": "{name} bijgewerkt.",
+  "Installed {name}. Turn it on under Installed.": "{name} geïnstalleerd. Zet hem aan onder Geïnstalleerd.",
+  "Submit a plugin": "Plugin insturen",
+  "Featured": "Uitgelicht",
+  "Installed": "Geïnstalleerd",
+  "Every featured plugin was reviewed before it was listed. Ruby checks each file against the signed list before installing it.": "Elke uitgelichte plugin is gecontroleerd voordat hij werd vermeld. Ruby vergelijkt elk bestand met de ondertekende lijst voor het installeren.",
+  "Update": "Bijwerken",
+  "Replace with reviewed": "Vervangen door gecontroleerde versie",
+  "Reviewed": "Gecontroleerd",
+  "No featured plugins yet. Check back soon, or submit your own.": "Nog geen uitgelichte plugins. Kom later terug, of stuur je eigen in.",
+  "Install from folder": "Installeren uit map",
+  "Not reviewed": "Niet gecontroleerd",
+  "No plugins installed yet. Pick one from Featured, or install your own from a folder.": "Nog geen plugins geïnstalleerd. Kies er een uit Uitgelicht, of installeer je eigen uit een map."
 }

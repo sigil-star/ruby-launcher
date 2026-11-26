@@ -1,6 +1,6 @@
 [package]
 name = "rubylauncher-tauri"
-version = "1.0.11"
+version = "1.0.12"
 description = "Ruby Launcher — Tauri desktop shell"
 authors = ["Ruby Launcher"]
 edition = "2021"

@@ -1492,5 +1492,19 @@
   "Unknown author": "Hindi kilalang may-akda",
   "No plugins yet. Click \"Open folder\", drop a plugin folder inside, then Refresh.": "Wala pang plugin. I-click ang \"Buksan ang folder\", maglagay ng plugin folder, tapos i-click ang I-refresh.",
   "How to make a plugin": "Paano gumawa ng plugin",
-  "Add features to Ruby, or build your own.": "Magdagdag ng feature sa Ruby, o gumawa ng sarili."
+  "Add features to Ruby, or build your own.": "Magdagdag ng feature sa Ruby, o gumawa ng sarili.",
+  "\"{name}\" hasn't been reviewed by Ruby. Plugins run with full access, so only enable it if you trust whoever made it.": "Hindi pa nasusuri ng Ruby ang \"{name}\". Buong access ang mga plugin, kaya i-on lang kung pinagkakatiwalaan mo ang gumawa.",
+  "Updated {name}.": "Na-update ang {name}.",
+  "Installed {name}. Turn it on under Installed.": "Na-install ang {name}. I-on ito sa Naka-install.",
+  "Submit a plugin": "Magsumite ng plugin",
+  "Featured": "Itinatampok",
+  "Installed": "Naka-install",
+  "Every featured plugin was reviewed before it was listed. Ruby checks each file against the signed list before installing it.": "Sinuri ang bawat itinatampok na plugin bago ito inilista. Sinusuri ng Ruby ang bawat file laban sa pinirmahang listahan bago mag-install.",
+  "Update": "I-update",
+  "Replace with reviewed": "Palitan ng nasuring bersyon",
+  "Reviewed": "Nasuri",
+  "No featured plugins yet. Check back soon, or submit your own.": "Wala pang itinatampok na plugin. Bumalik mamaya, o isumite ang sa iyo.",
+  "Install from folder": "I-install mula sa folder",
+  "Not reviewed": "Hindi nasuri",
+  "No plugins installed yet. Pick one from Featured, or install your own from a folder.": "Wala pang naka-install na plugin. Pumili sa Itinatampok, o i-install ang sa iyo mula sa folder."
 }

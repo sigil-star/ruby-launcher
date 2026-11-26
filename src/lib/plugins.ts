@@ -14,7 +14,7 @@ import { call } from "./ipc";
 
 export const PLUGIN_API_VERSION = 1;
 
-export type PluginInfo = { id: string; name: string; version: string; author: string; description: string; enabled: boolean; code?: string | null };
+export type PluginInfo = { id: string; name: string; version: string; author: string; description: string; enabled: boolean; source?: "featured" | "local"; code?: string | null };
 
 export type PluginPage = { pluginId: string; id: string; label: string; icon?: string; mount: (container: HTMLElement) => void | (() => void) };
 export type PluginSettings = { pluginId: string; id: string; title: string; mount: (container: HTMLElement) => void | (() => void) };

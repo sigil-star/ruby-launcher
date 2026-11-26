@@ -1492,5 +1492,19 @@
   "Unknown author": "Автор неизвестен",
   "No plugins yet. Click \"Open folder\", drop a plugin folder inside, then Refresh.": "Плагинов пока нет. Нажмите «Открыть папку», положите туда папку плагина и нажмите «Обновить».",
   "How to make a plugin": "Как создать плагин",
-  "Add features to Ruby, or build your own.": "Добавьте Ruby функции или создайте свои."
+  "Add features to Ruby, or build your own.": "Добавьте Ruby функции или создайте свои.",
+  "\"{name}\" hasn't been reviewed by Ruby. Plugins run with full access, so only enable it if you trust whoever made it.": "«{name}» не проверен Ruby. Плагины работают с полным доступом, включайте его, только если доверяете автору.",
+  "Updated {name}.": "{name} обновлён.",
+  "Installed {name}. Turn it on under Installed.": "{name} установлен. Включите его в «Установленных».",
+  "Submit a plugin": "Предложить плагин",
+  "Featured": "Рекомендуемые",
+  "Installed": "Установленные",
+  "Every featured plugin was reviewed before it was listed. Ruby checks each file against the signed list before installing it.": "Каждый рекомендуемый плагин проверен перед публикацией. Ruby сверяет каждый файл с подписанным списком перед установкой.",
+  "Update": "Обновить",
+  "Replace with reviewed": "Заменить проверенной версией",
+  "Reviewed": "Проверено",
+  "No featured plugins yet. Check back soon, or submit your own.": "Рекомендуемых плагинов пока нет. Загляните позже или предложите свой.",
+  "Install from folder": "Установить из папки",
+  "Not reviewed": "Не проверено",
+  "No plugins installed yet. Pick one from Featured, or install your own from a folder.": "Плагинов пока нет. Выберите в «Рекомендуемых» или установите свой из папки."
 }

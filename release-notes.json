@@ -56,5 +56,10 @@
   ],
   "1.0.11": [
     "Security: updated dependencies and tightened how the Roblox session cookie is handled"
+  ],
+  "1.0.12": [
+    "Plugins: add features to Ruby from Plugins in the menu or Settings",
+    "Featured plugins are reviewed and checked file-by-file against a signed list before installing",
+    "Make your own plugins and submit them on GitHub to get featured"
   ]
 }

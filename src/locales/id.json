@@ -1492,5 +1492,19 @@
   "Unknown author": "Penulis tak dikenal",
   "No plugins yet. Click \"Open folder\", drop a plugin folder inside, then Refresh.": "Belum ada plugin. Klik \"Buka folder\", taruh folder plugin di dalamnya, lalu klik Segarkan.",
   "How to make a plugin": "Cara membuat plugin",
-  "Add features to Ruby, or build your own.": "Tambahkan fitur ke Ruby, atau buat sendiri."
+  "Add features to Ruby, or build your own.": "Tambahkan fitur ke Ruby, atau buat sendiri.",
+  "\"{name}\" hasn't been reviewed by Ruby. Plugins run with full access, so only enable it if you trust whoever made it.": "\"{name}\" belum ditinjau oleh Ruby. Plugin berjalan dengan akses penuh, jadi aktifkan hanya jika kamu percaya pembuatnya.",
+  "Updated {name}.": "{name} diperbarui.",
+  "Installed {name}. Turn it on under Installed.": "{name} terpasang. Nyalakan di Terpasang.",
+  "Submit a plugin": "Kirim plugin",
+  "Featured": "Unggulan",
+  "Installed": "Terpasang",
+  "Every featured plugin was reviewed before it was listed. Ruby checks each file against the signed list before installing it.": "Setiap plugin unggulan ditinjau sebelum dicantumkan. Ruby mencocokkan setiap berkas dengan daftar bertanda tangan sebelum memasangnya.",
+  "Update": "Perbarui",
+  "Replace with reviewed": "Ganti dengan versi yang ditinjau",
+  "Reviewed": "Ditinjau",
+  "No featured plugins yet. Check back soon, or submit your own.": "Belum ada plugin unggulan. Cek lagi nanti, atau kirim punyamu.",
+  "Install from folder": "Pasang dari folder",
+  "Not reviewed": "Belum ditinjau",
+  "No plugins installed yet. Pick one from Featured, or install your own from a folder.": "Belum ada plugin terpasang. Pilih dari Unggulan, atau pasang punyamu dari folder."
 }

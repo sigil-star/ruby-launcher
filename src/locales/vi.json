@@ -1492,5 +1492,19 @@
   "Unknown author": "Không rõ tác giả",
   "No plugins yet. Click \"Open folder\", drop a plugin folder inside, then Refresh.": "Chưa có plugin. Nhấn \"Mở thư mục\", bỏ một thư mục plugin vào, rồi nhấn Làm mới.",
   "How to make a plugin": "Cách tạo plugin",
-  "Add features to Ruby, or build your own.": "Thêm tính năng cho Ruby, hoặc tự tạo."
+  "Add features to Ruby, or build your own.": "Thêm tính năng cho Ruby, hoặc tự tạo.",
+  "\"{name}\" hasn't been reviewed by Ruby. Plugins run with full access, so only enable it if you trust whoever made it.": "\"{name}\" chưa được Ruby kiểm duyệt. Plugin chạy với toàn quyền, nên chỉ bật nếu bạn tin người tạo.",
+  "Updated {name}.": "Đã cập nhật {name}.",
+  "Installed {name}. Turn it on under Installed.": "Đã cài {name}. Bật nó ở mục Đã cài.",
+  "Submit a plugin": "Gửi plugin",
+  "Featured": "Nổi bật",
+  "Installed": "Đã cài",
+  "Every featured plugin was reviewed before it was listed. Ruby checks each file against the signed list before installing it.": "Mọi plugin nổi bật đều được kiểm duyệt trước khi đăng. Ruby đối chiếu từng tệp với danh sách đã ký trước khi cài.",
+  "Update": "Cập nhật",
+  "Replace with reviewed": "Thay bằng bản đã duyệt",
+  "Reviewed": "Đã duyệt",
+  "No featured plugins yet. Check back soon, or submit your own.": "Chưa có plugin nổi bật. Quay lại sau, hoặc gửi plugin của bạn.",
+  "Install from folder": "Cài từ thư mục",
+  "Not reviewed": "Chưa duyệt",
+  "No plugins installed yet. Pick one from Featured, or install your own from a folder.": "Chưa cài plugin nào. Chọn một cái ở Nổi bật, hoặc cài của bạn từ thư mục."
 }

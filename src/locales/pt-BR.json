@@ -1492,5 +1492,19 @@
   "Unknown author": "Autor desconhecido",
   "No plugins yet. Click \"Open folder\", drop a plugin folder inside, then Refresh.": "Nenhum plugin ainda. Clique em \"Abrir pasta\", coloque uma pasta de plugin dentro e clique em Atualizar.",
   "How to make a plugin": "Como fazer um plugin",
-  "Add features to Ruby, or build your own.": "Adicione recursos ao Ruby, ou crie os seus."
+  "Add features to Ruby, or build your own.": "Adicione recursos ao Ruby, ou crie os seus.",
+  "\"{name}\" hasn't been reviewed by Ruby. Plugins run with full access, so only enable it if you trust whoever made it.": "\"{name}\" não foi revisado pelo Ruby. Plugins rodam com acesso total, então ative só se você confia em quem fez.",
+  "Updated {name}.": "{name} atualizado.",
+  "Installed {name}. Turn it on under Installed.": "{name} instalado. Ative em Instalados.",
+  "Submit a plugin": "Enviar um plugin",
+  "Featured": "Destaques",
+  "Installed": "Instalados",
+  "Every featured plugin was reviewed before it was listed. Ruby checks each file against the signed list before installing it.": "Todo plugin em destaque foi revisado antes de ser listado. O Ruby confere cada arquivo com a lista assinada antes de instalar.",
+  "Update": "Atualizar",
+  "Replace with reviewed": "Trocar pelo revisado",
+  "Reviewed": "Revisado",
+  "No featured plugins yet. Check back soon, or submit your own.": "Ainda não há plugins em destaque. Volte em breve ou envie o seu.",
+  "Install from folder": "Instalar de uma pasta",
+  "Not reviewed": "Não revisado",
+  "No plugins installed yet. Pick one from Featured, or install your own from a folder.": "Nenhum plugin instalado ainda. Escolha um em Destaques ou instale o seu de uma pasta."
 }

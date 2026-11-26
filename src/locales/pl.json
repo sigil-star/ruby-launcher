@@ -1492,5 +1492,19 @@
   "Unknown author": "Nieznany autor",
   "No plugins yet. Click \"Open folder\", drop a plugin folder inside, then Refresh.": "Brak wtyczek. Kliknij „Otwórz folder”, wrzuć folder wtyczki i kliknij Odśwież.",
   "How to make a plugin": "Jak zrobić wtyczkę",
-  "Add features to Ruby, or build your own.": "Dodaj funkcje do Ruby albo stwórz własne."
+  "Add features to Ruby, or build your own.": "Dodaj funkcje do Ruby albo stwórz własne.",
+  "\"{name}\" hasn't been reviewed by Ruby. Plugins run with full access, so only enable it if you trust whoever made it.": "„{name}” nie został sprawdzony przez Ruby. Wtyczki mają pełny dostęp, więc włącz ją tylko, jeśli ufasz autorowi.",
+  "Updated {name}.": "Zaktualizowano {name}.",
+  "Installed {name}. Turn it on under Installed.": "Zainstalowano {name}. Włącz ją w Zainstalowanych.",
+  "Submit a plugin": "Zgłoś wtyczkę",
+  "Featured": "Polecane",
+  "Installed": "Zainstalowane",
+  "Every featured plugin was reviewed before it was listed. Ruby checks each file against the signed list before installing it.": "Każda polecana wtyczka została sprawdzona przed dodaniem. Ruby porównuje każdy plik z podpisaną listą przed instalacją.",
+  "Update": "Aktualizuj",
+  "Replace with reviewed": "Zastąp sprawdzoną wersją",
+  "Reviewed": "Sprawdzona",
+  "No featured plugins yet. Check back soon, or submit your own.": "Brak polecanych wtyczek. Zajrzyj później albo zgłoś własną.",
+  "Install from folder": "Zainstaluj z folderu",
+  "Not reviewed": "Niesprawdzona",
+  "No plugins installed yet. Pick one from Featured, or install your own from a folder.": "Brak zainstalowanych wtyczek. Wybierz z Polecanych albo zainstaluj własną z folderu."
 }

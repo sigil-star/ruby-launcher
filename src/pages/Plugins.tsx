@@ -83,12 +83,28 @@ export function PluginSettingsSections() {
   );
 }
 
+const SUBMIT_URL = "https://github.com/sigil-star/ruby-plugins#submit-a-plugin";
+const DOCS_URL = "https://github.com/sigil-star/ruby-launcher/blob/main/docs/PLUGINS.md";
+
+type FeaturedPlugin = {
+  id: string;
+  name: string;
+  version: string;
+  author: string;
+  description: string;
+  featured: boolean;
+  installed: boolean;
+  installedVersion?: string | null;
+  installedReviewed: boolean;
+};
+
 /** Manage installed plugins: turn them on or off, remove them, or open the folder to add more. */
 export function Plugins() {
   const { toast } = useUi();
   const host = usePluginHost();
   const fileRef = useRef<HTMLInputElement>(null);
   const [installing, setInstalling] = useState(false);
+  const [tab, setTab] = useState<"featured" | "installed">("featured");
   const q = useQuery({ queryKey: ["plugins"], queryFn: () => call<{ plugins: PluginInfo[]; dir: string }>("listPlugins") });
 
   const reload = async () => {
@@ -125,7 +141,9 @@ export function Plugins() {
   const toggle = async (p: PluginInfo) => {
     if (!p.enabled) {
       const ok = await askConfirm(
-        t("Enable \"{name}\"? Plugins run inside Ruby with full access, so only enable ones you trust.", { name: p.name }),
+        p.source === "featured"
+          ? t("Enable \"{name}\"? Plugins run inside Ruby with full access, so only enable ones you trust.", { name: p.name })
+          : t("\"{name}\" hasn't been reviewed by Ruby. Plugins run with full access, so only enable it if you trust whoever made it.", { name: p.name }),
       );
       if (!ok) return;
     }
@@ -150,6 +168,29 @@ export function Plugins() {
   };
 
   const plugins = q.data?.plugins ?? [];
+  const reg = useQuery({
+    queryKey: ["pluginRegistry"],
+    queryFn: () => call<{ plugins: FeaturedPlugin[]; error?: string }>("pluginRegistry"),
+    staleTime: 5 * 60_000,
+    enabled: tab === "featured",
+  });
+  const [busyId, setBusyId] = useState<string | null>(null);
+
+  const installFeatured = async (p: FeaturedPlugin) => {
+    setBusyId(p.id);
+    try {
+      await call("installFeaturedPlugin", p.id);
+      await reload();
+      await reg.refetch();
+      toast(p.installed ? t("Updated {name}.", { name: p.name }) : t("Installed {name}. Turn it on under Installed.", { name: p.name }));
+    } catch (e) {
+      toast(e instanceof Error ? e.message : String(e), "error");
+    } finally {
+      setBusyId(null);
+    }
+  };
+
+  const featured = reg.data?.plugins ?? [];
 
   return (
     <div className="page narrow plugins-page">
@@ -159,63 +200,124 @@ export function Plugins() {
           <p className="muted small">{t("Add features to Ruby, or build your own. Plugins run inside Ruby, so only turn on ones you trust.")}</p>
         </div>
         <div className="plugins-actions">
-          <button className="btn btn-primary btn-small" onClick={() => fileRef.current?.click()} disabled={installing}>
-            {installing ? <Spinner size={16} /> : <><Icon name="plus-small" size={16} /> {t("Install")}</>}
-            <input
-              ref={fileRef}
-              type="file"
-              hidden
-              // @ts-expect-error non-standard folder-select attributes
-              webkitdirectory=""
-              directory=""
-              multiple
-              onChange={(e) => void install(e.target.files)}
-            />
-          </button>
-          <button className="btn btn-secondary btn-small" onClick={() => call("openPluginsFolder")}>
-            <Icon name="two-folders" size={16} /> {t("Open folder")}
-          </button>
-          <button className="btn btn-secondary btn-small" onClick={() => void reload()} disabled={q.isFetching}>
-            {q.isFetching ? <Spinner size={16} /> : t("Refresh")}
+          <button className="btn btn-secondary btn-small" onClick={() => void win.openExternal(SUBMIT_URL)}>
+            {t("Submit a plugin")}
           </button>
         </div>
       </div>
 
-      {q.isLoading ? (
-        <SkeletonRows count={3} />
-      ) : q.error ? (
-        <ErrorState error={q.error} retry={() => q.refetch()} />
-      ) : plugins.length ? (
-        <div className="plugin-list">
-          {plugins.map((p) => (
-            <div key={p.id} className={`plugin-card ${p.enabled ? "on" : ""}`}>
-              <div className="plugin-meta">
-                <div className="plugin-name">
-                  {p.name} <span className="muted small">{p.version ? `v${p.version}` : ""}</span>
-                </div>
-                {p.description ? <div className="muted small">{p.description}</div> : null}
-                <div className="muted tiny">
-                  {p.author ? t("by {author}", { author: p.author }) : t("Unknown author")} · {p.id}
-                </div>
-              </div>
-              <div className="plugin-card-actions">
-                <button className="btn btn-ghost btn-small" onClick={() => void remove(p)} title={t("Remove")}>
-                  <Icon name="x-small" size={16} />
-                </button>
-                <button className={`switch-btn ${p.enabled ? "on" : ""}`} role="switch" aria-checked={p.enabled} onClick={() => void toggle(p)}>
-                  <span className="switch-knob" />
-                </button>
-              </div>
+      <div className="tabs">
+        <button className={tab === "featured" ? "active" : ""} onClick={() => setTab("featured")}>
+          {t("Featured")}
+        </button>
+        <button className={tab === "installed" ? "active" : ""} onClick={() => setTab("installed")}>
+          {t("Installed")} {plugins.length ? <span className="muted">({plugins.length})</span> : null}
+        </button>
+      </div>
+
+      {tab === "featured" ? (
+        <>
+          <p className="muted small plugins-note">
+            <Icon name="check" size={14} /> {t("Every featured plugin was reviewed before it was listed. Ruby checks each file against the signed list before installing it.")}
+          </p>
+          {reg.isLoading ? (
+            <SkeletonRows count={3} />
+          ) : reg.error ? (
+            <ErrorState error={reg.error} retry={() => reg.refetch()} />
+          ) : reg.data?.error ? (
+            <Empty icon="triangle-exclamation">{reg.data.error}</Empty>
+          ) : featured.length ? (
+            <div className="plugin-list">
+              {featured.map((p) => {
+                const upToDate = p.installed && p.installedReviewed && p.installedVersion === p.version;
+                const label = upToDate ? t("Installed") : p.installed && p.installedReviewed ? t("Update") : p.installed ? t("Replace with reviewed") : t("Install");
+                return (
+                  <div key={p.id} className={`plugin-card ${p.featured ? "featured" : ""}`}>
+                    <div className="plugin-meta">
+                      <div className="plugin-name">
+                        {p.name} <span className="muted small">{p.version ? `v${p.version}` : ""}</span>
+                        <span className="plugin-badge reviewed">{t("Reviewed")}</span>
+                        {p.featured ? <span className="plugin-badge">{t("Featured")}</span> : null}
+                      </div>
+                      {p.description ? <div className="muted small">{p.description}</div> : null}
+                      <div className="muted tiny">{p.author ? t("by {author}", { author: p.author }) : t("Unknown author")}</div>
+                    </div>
+                    <div className="plugin-card-actions">
+                      <button className={`btn btn-small ${upToDate ? "btn-secondary" : "btn-primary"}`} disabled={upToDate || busyId === p.id} onClick={() => void installFeatured(p)}>
+                        {busyId === p.id ? <Spinner size={16} /> : label}
+                      </button>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
-          ))}
-        </div>
+          ) : (
+            <Empty icon="star">{t("No featured plugins yet. Check back soon, or submit your own.")}</Empty>
+          )}
+        </>
       ) : (
-        <Empty icon="two-folders">
-          {t("No plugins yet. Click \"Open folder\", drop a plugin folder inside, then Refresh.")}
-        </Empty>
+        <>
+          <div className="plugins-actions installed-actions">
+            <button className="btn btn-primary btn-small" onClick={() => fileRef.current?.click()} disabled={installing}>
+              {installing ? <Spinner size={16} /> : <><Icon name="plus-small" size={16} /> {t("Install from folder")}</>}
+              <input
+                ref={fileRef}
+                type="file"
+                hidden
+                // @ts-expect-error non-standard folder-select attributes
+                webkitdirectory=""
+                directory=""
+                multiple
+                onChange={(e) => void install(e.target.files)}
+              />
+            </button>
+            <button className="btn btn-secondary btn-small" onClick={() => call("openPluginsFolder")}>
+              <Icon name="two-folders" size={16} /> {t("Open folder")}
+            </button>
+            <button className="btn btn-secondary btn-small" onClick={() => void reload()} disabled={q.isFetching}>
+              {q.isFetching ? <Spinner size={16} /> : t("Refresh")}
+            </button>
+          </div>
+          {q.isLoading ? (
+            <SkeletonRows count={3} />
+          ) : q.error ? (
+            <ErrorState error={q.error} retry={() => q.refetch()} />
+          ) : plugins.length ? (
+            <div className="plugin-list">
+              {plugins.map((p) => (
+                <div key={p.id} className={`plugin-card ${p.enabled ? "on" : ""}`}>
+                  <div className="plugin-meta">
+                    <div className="plugin-name">
+                      {p.name} <span className="muted small">{p.version ? `v${p.version}` : ""}</span>
+                      {p.source === "featured" ? (
+                        <span className="plugin-badge reviewed">{t("Reviewed")}</span>
+                      ) : (
+                        <span className="plugin-badge local">{t("Not reviewed")}</span>
+                      )}
+                    </div>
+                    {p.description ? <div className="muted small">{p.description}</div> : null}
+                    <div className="muted tiny">
+                      {p.author ? t("by {author}", { author: p.author }) : t("Unknown author")} · {p.id}
+                    </div>
+                  </div>
+                  <div className="plugin-card-actions">
+                    <button className="btn btn-ghost btn-small" onClick={() => void remove(p)} title={t("Remove")}>
+                      <Icon name="x-small" size={16} />
+                    </button>
+                    <button className={`switch-btn ${p.enabled ? "on" : ""}`} role="switch" aria-checked={p.enabled} onClick={() => void toggle(p)}>
+                      <span className="switch-knob" />
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <Empty icon="two-folders">{t("No plugins installed yet. Pick one from Featured, or install your own from a folder.")}</Empty>
+          )}
+        </>
       )}
 
-      <button className="link small plugins-docs" onClick={() => void win.openExternal("https://github.com/sigil-star/ruby-launcher/blob/main/docs/PLUGINS.md")}>
+      <button className="link small plugins-docs" onClick={() => void win.openExternal(DOCS_URL)}>
         {t("How to make a plugin")}
       </button>
     </div>

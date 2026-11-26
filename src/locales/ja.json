@@ -1492,5 +1492,19 @@
   "Unknown author": "作者不明",
   "No plugins yet. Click \"Open folder\", drop a plugin folder inside, then Refresh.": "まだプラグインがありません。「フォルダを開く」でプラグインのフォルダを入れ、更新を押してください。",
   "How to make a plugin": "プラグインの作り方",
-  "Add features to Ruby, or build your own.": "Rubyに機能を追加したり、自分で作ったり。"
+  "Add features to Ruby, or build your own.": "Rubyに機能を追加したり、自分で作ったり。",
+  "\"{name}\" hasn't been reviewed by Ruby. Plugins run with full access, so only enable it if you trust whoever made it.": "「{name}」はRubyの審査を受けていません。プラグインはフル権限で動くので、作者を信頼できる場合だけ有効にしてください。",
+  "Updated {name}.": "{name}を更新しました。",
+  "Installed {name}. Turn it on under Installed.": "{name}をインストールしました。「インストール済み」でオンにしてください。",
+  "Submit a plugin": "プラグインを投稿",
+  "Featured": "おすすめ",
+  "Installed": "インストール済み",
+  "Every featured plugin was reviewed before it was listed. Ruby checks each file against the signed list before installing it.": "おすすめのプラグインは掲載前にすべて審査されています。Rubyはインストール前に各ファイルを署名付きリストと照合します。",
+  "Update": "更新",
+  "Replace with reviewed": "審査済みに置き換える",
+  "Reviewed": "審査済み",
+  "No featured plugins yet. Check back soon, or submit your own.": "おすすめのプラグインはまだありません。また見に来るか、自分のを投稿してください。",
+  "Install from folder": "フォルダからインストール",
+  "Not reviewed": "未審査",
+  "No plugins installed yet. Pick one from Featured, or install your own from a folder.": "まだプラグインがありません。おすすめから選ぶか、フォルダから自分のをインストールしてください。"
 }

@@ -40,7 +40,14 @@ ruby.registerCustomizeTab({
   label: "Hello",
   icon: "star",
   mount(container) {
-    container.innerHTML = "<h2 class='sub-title'>Hello from a plugin</h2><p class='muted small'>This Customize tab was added by the Hello Ruby example plugin.</p>";
+    // Build UI with createElement + textContent. Never build HTML from strings.
+    const h = document.createElement("h2");
+    h.className = "sub-title";
+    h.textContent = "Hello from a plugin";
+    const p = document.createElement("p");
+    p.className = "muted small";
+    p.textContent = "This Customize tab was added by the Hello Ruby example plugin.";
+    container.append(h, p);
   },
 });
 

@@ -1492,5 +1492,19 @@
   "Unknown author": "Auteur inconnu",
   "No plugins yet. Click \"Open folder\", drop a plugin folder inside, then Refresh.": "Aucun plugin pour l'instant. Cliquez sur « Ouvrir le dossier », déposez-y un dossier de plugin, puis cliquez sur Actualiser.",
   "How to make a plugin": "Comment créer un plugin",
-  "Add features to Ruby, or build your own.": "Ajoutez des fonctions à Ruby, ou créez les vôtres."
+  "Add features to Ruby, or build your own.": "Ajoutez des fonctions à Ruby, ou créez les vôtres.",
+  "\"{name}\" hasn't been reviewed by Ruby. Plugins run with full access, so only enable it if you trust whoever made it.": "« {name} » n'a pas été vérifié par Ruby. Les plugins ont un accès complet : activez-le seulement si vous faites confiance à son auteur.",
+  "Updated {name}.": "{name} mis à jour.",
+  "Installed {name}. Turn it on under Installed.": "{name} installé. Activez-le dans Installés.",
+  "Submit a plugin": "Proposer un plugin",
+  "Featured": "En vedette",
+  "Installed": "Installés",
+  "Every featured plugin was reviewed before it was listed. Ruby checks each file against the signed list before installing it.": "Chaque plugin en vedette a été vérifié avant d'être listé. Ruby contrôle chaque fichier avec la liste signée avant de l'installer.",
+  "Update": "Mettre à jour",
+  "Replace with reviewed": "Remplacer par la version vérifiée",
+  "Reviewed": "Vérifié",
+  "No featured plugins yet. Check back soon, or submit your own.": "Pas encore de plugins en vedette. Revenez bientôt, ou proposez le vôtre.",
+  "Install from folder": "Installer depuis un dossier",
+  "Not reviewed": "Non vérifié",
+  "No plugins installed yet. Pick one from Featured, or install your own from a folder.": "Aucun plugin installé. Choisissez-en un dans En vedette, ou installez le vôtre depuis un dossier."
 }

@@ -1492,5 +1492,19 @@
   "Unknown author": "作者未知",
   "No plugins yet. Click \"Open folder\", drop a plugin folder inside, then Refresh.": "还没有插件。点击“打开文件夹”，把插件文件夹放进去，然后点刷新。",
   "How to make a plugin": "如何制作插件",
-  "Add features to Ruby, or build your own.": "为 Ruby 添加功能，或自己制作。"
+  "Add features to Ruby, or build your own.": "为 Ruby 添加功能，或自己制作。",
+  "\"{name}\" hasn't been reviewed by Ruby. Plugins run with full access, so only enable it if you trust whoever made it.": "“{name}”未经 Ruby 审核。插件以完全权限运行，只有在你信任作者时才启用。",
+  "Updated {name}.": "已更新 {name}。",
+  "Installed {name}. Turn it on under Installed.": "已安装 {name}。请在“已安装”中开启。",
+  "Submit a plugin": "提交插件",
+  "Featured": "精选",
+  "Installed": "已安装",
+  "Every featured plugin was reviewed before it was listed. Ruby checks each file against the signed list before installing it.": "每个精选插件在上架前都经过审核。Ruby 会在安装前将每个文件与签名列表核对。",
+  "Update": "更新",
+  "Replace with reviewed": "替换为审核版本",
+  "Reviewed": "已审核",
+  "No featured plugins yet. Check back soon, or submit your own.": "暂无精选插件。稍后再来看看，或提交你自己的插件。",
+  "Install from folder": "从文件夹安装",
+  "Not reviewed": "未审核",
+  "No plugins installed yet. Pick one from Featured, or install your own from a folder.": "还没有安装插件。从“精选”中挑一个，或从文件夹安装你自己的插件。"
 }

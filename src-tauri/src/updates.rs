@@ -47,6 +47,15 @@ fn parts(v: &str) -> [u64; 3] {
     out
 }
 
+/// Check an Ed25519 signature made with Ruby's release key (the same key that signs updates).
+pub fn verify_signed(message: &str, sig_b64: &str) -> Result<(), String> {
+    let b64 = base64::engine::general_purpose::STANDARD;
+    let key: [u8; 32] = b64.decode(PUBLIC_KEY).ok().and_then(|k| k.try_into().ok()).ok_or("bad public key")?;
+    let key = VerifyingKey::from_bytes(&key).map_err(|_| "bad public key")?;
+    let sig: [u8; 64] = b64.decode(sig_b64.trim()).ok().and_then(|s| s.try_into().ok()).ok_or("not signed")?;
+    key.verify(message.as_bytes(), &Signature::from_bytes(&sig)).map_err(|_| "signature doesn't match".to_string())
+}
+
 fn signed_message(r: &Release) -> String {
     format!("ruby-update\n{}\n{}\n{}", r.version, r.sha256.to_ascii_lowercase(), r.size)
 }

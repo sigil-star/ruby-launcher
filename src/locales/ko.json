@@ -1492,5 +1492,19 @@
   "Unknown author": "작성자 미상",
   "No plugins yet. Click \"Open folder\", drop a plugin folder inside, then Refresh.": "아직 플러그인이 없어요. \"폴더 열기\"를 눌러 플러그인 폴더를 넣고 새로고침하세요.",
   "How to make a plugin": "플러그인 만드는 법",
-  "Add features to Ruby, or build your own.": "Ruby에 기능을 추가하거나 직접 만들어 보세요."
+  "Add features to Ruby, or build your own.": "Ruby에 기능을 추가하거나 직접 만들어 보세요.",
+  "\"{name}\" hasn't been reviewed by Ruby. Plugins run with full access, so only enable it if you trust whoever made it.": "\"{name}\"은(는) Ruby의 검토를 받지 않았어요. 플러그인은 모든 권한으로 실행되니 만든 사람을 신뢰할 때만 켜세요.",
+  "Updated {name}.": "{name}을(를) 업데이트했어요.",
+  "Installed {name}. Turn it on under Installed.": "{name}을(를) 설치했어요. 설치됨에서 켜 주세요.",
+  "Submit a plugin": "플러그인 제출",
+  "Featured": "추천",
+  "Installed": "설치됨",
+  "Every featured plugin was reviewed before it was listed. Ruby checks each file against the signed list before installing it.": "추천 플러그인은 모두 등록 전에 검토됐어요. Ruby는 설치 전에 각 파일을 서명된 목록과 대조해요.",
+  "Update": "업데이트",
+  "Replace with reviewed": "검토된 버전으로 바꾸기",
+  "Reviewed": "검토됨",
+  "No featured plugins yet. Check back soon, or submit your own.": "아직 추천 플러그인이 없어요. 나중에 다시 오거나 직접 제출해 보세요.",
+  "Install from folder": "폴더에서 설치",
+  "Not reviewed": "검토 안 됨",
+  "No plugins installed yet. Pick one from Featured, or install your own from a folder.": "아직 설치된 플러그인이 없어요. 추천에서 고르거나 폴더에서 직접 설치하세요."
 }

@@ -31,6 +31,9 @@ fn default_entry() -> String {
     "index.js".into()
 }
 
+/// Marker Ruby writes next to a plugin installed from the signed featured list.
+const SOURCE_FILE: &str = ".ruby-source.json";
+
 fn plugins_dir(state: &AppState) -> PathBuf {
     state.data_dir.join("plugins")
 }
@@ -99,6 +102,7 @@ pub fn list(state: &Arc<AppState>) -> Value {
                 "author": m.author,
                 "description": m.description,
                 "enabled": on,
+                "source": if source_of(state, &m.id).is_some_and(|s| s["source"] == "featured") { "featured" } else { "local" },
                 "code": code,
             }));
         }
@@ -222,9 +226,20 @@ pub fn install_files(state: &Arc<AppState>, files: Value) -> Result<Value, Strin
     if items.len() > 200 {
         return Err("too many files for one plugin".into());
     }
+    let id = write_plugin(state, &items)?;
+    // A plugin installed by hand is not the reviewed version, even if it shares an id.
+    let _ = std::fs::remove_file(plugins_dir(state).join(&id).join(SOURCE_FILE));
+    Ok(list(state))
+}
+
+/// Validate a set of plugin files and write them to `plugins/<id>/` (replacing any older copy).
+/// Returns the plugin id. Shared by hand installs and verified featured installs.
+fn write_plugin(state: &AppState, items: &[(String, Vec<u8>)]) -> Result<String, String> {
+    if items.is_empty() || items.len() > 200 {
+        return Err("a plugin needs between 1 and 200 files".into());
+    }
     // A zip often wraps everything in one top folder; drop a shared leading segment.
-    let strip = common_prefix(&items);
-    // Find and validate the manifest.
+    let strip = common_prefix(items);
     let manifest_raw = items
         .iter()
         .find(|(p, _)| p.replace('\\', "/").trim_start_matches(&strip as &str).trim_start_matches('/') == "plugin.json")
@@ -235,23 +250,27 @@ pub fn install_files(state: &Arc<AppState>, files: Value) -> Result<Value, Strin
         return Err("plugin.json needs a valid id, name and entry".into());
     }
     let dest = plugins_dir(state).join(&m.id);
-    let _ = std::fs::create_dir_all(&dest);
-    for (p, bytes) in &items {
+    // Start clean so files removed in a new version don't linger.
+    let _ = std::fs::remove_dir_all(&dest);
+    std::fs::create_dir_all(&dest).map_err(|e| e.to_string())?;
+    for (p, bytes) in items {
         let rel = p.replace('\\', "/");
         let rel = rel.trim_start_matches(&strip as &str).trim_start_matches('/');
         let Some(safe) = safe_rel(rel) else { continue };
+        if safe == SOURCE_FILE {
+            continue; // only Ruby writes the reviewed-source marker
+        }
         let to = dest.join(&safe);
         if let Some(d) = to.parent() {
             let _ = std::fs::create_dir_all(d);
         }
-        let _ = std::fs::write(&to, bytes);
+        std::fs::write(&to, bytes).map_err(|e| e.to_string())?;
     }
-    // Make sure the entry file exists after writing.
     if !dest.join(&m.entry).is_file() {
         let _ = std::fs::remove_dir_all(&dest);
         return Err("the plugin's entry file is missing".into());
     }
-    Ok(list(state))
+    Ok(m.id)
 }
 
 /// If every path shares a first folder segment (as zips often do), return it (with trailing /).
@@ -277,9 +296,207 @@ pub fn open_folder(state: &Arc<AppState>) -> Result<Value, String> {
     Ok(json!({ "ok": true, "dir": dir.to_string_lossy() }))
 }
 
+// ---------------------------------------------------------------------------------------------
+// Featured plugins: a list Ruby trusts because it is signed with Ruby's release key.
+//
+// The list lives at dsk.wtf/ruby/plugins.json as `{ payload, signature }`, where `signature`
+// signs "ruby-plugins\n" + payload. Every file in it points at a reviewed plugin in the
+// sigil-star/ruby-plugins repo, pinned to an exact commit, with its SHA-256 and size. Ruby
+// downloads each file, checks size and hash, and only then installs. A tampered list, a moved
+// file or a changed byte is refused.
+// ---------------------------------------------------------------------------------------------
+
+const REGISTRY_URL: &str = "https://dsk.wtf/ruby/plugins.json";
+const REPO_RAW: &str = "https://raw.githubusercontent.com/sigil-star/ruby-plugins/";
+const MAX_FILE: u64 = 10 * 1024 * 1024;
+
+#[derive(Deserialize)]
+struct SignedRegistry {
+    payload: String,
+    signature: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+struct RegFile {
+    path: String,
+    url: String,
+    sha256: String,
+    size: u64,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+struct RegEntry {
+    id: String,
+    name: String,
+    #[serde(default)]
+    version: String,
+    #[serde(default)]
+    author: String,
+    #[serde(default)]
+    description: String,
+    #[serde(default)]
+    featured: bool,
+    files: Vec<RegFile>,
+}
+
+#[derive(Debug, Deserialize)]
+struct Registry {
+    commit: String,
+    plugins: Vec<RegEntry>,
+}
+
+fn is_hex(s: &str, len: usize) -> bool {
+    s.len() == len && s.chars().all(|c| c.is_ascii_hexdigit())
+}
+
+fn registry_client() -> Result<reqwest::Client, String> {
+    reqwest::Client::builder()
+        .user_agent("RubyLauncher")
+        .timeout(std::time::Duration::from_secs(30))
+        .redirect(reqwest::redirect::Policy::custom(|a| {
+            let ok = a.url().scheme() == "https" && matches!(a.url().host_str(), Some("dsk.wtf") | Some("raw.githubusercontent.com"));
+            if a.previous().len() > 3 || !ok { a.stop() } else { a.follow() }
+        }))
+        .build()
+        .map_err(|e| e.to_string())
+}
+
+/// An entry is only usable if every file sits in its own reviewed folder at the pinned commit.
+fn entry_valid(e: &RegEntry, commit: &str) -> bool {
+    safe_id(&e.id)
+        && !e.name.trim().is_empty()
+        && !e.files.is_empty()
+        && e.files.len() <= 200
+        && e.files.iter().any(|f| f.path == "plugin.json")
+        && e.files.iter().all(|f| {
+            safe_rel(&f.path).as_deref() == Some(f.path.as_str())
+                && is_hex(&f.sha256, 64)
+                && f.size <= MAX_FILE
+                && f.url == format!("{REPO_RAW}{commit}/plugins/{}/{}", e.id, f.path)
+        })
+}
+
+async fn fetch_registry() -> Result<Registry, String> {
+    let signed: SignedRegistry = registry_client()?
+        .get(REGISTRY_URL)
+        .send()
+        .await
+        .map_err(|e| e.to_string())?
+        .error_for_status()
+        .map_err(|e| e.to_string())?
+        .json()
+        .await
+        .map_err(|_| "The plugin list couldn't be read.".to_string())?;
+    crate::updates::verify_signed(&format!("ruby-plugins\n{}", signed.payload), &signed.signature)
+        .map_err(|_| "The plugin list's signature doesn't match, so Ruby won't use it.".to_string())?;
+    let mut reg: Registry = serde_json::from_str(&signed.payload).map_err(|_| "The plugin list isn't valid.".to_string())?;
+    if !is_hex(&reg.commit, 40) {
+        return Err("The plugin list isn't pinned to a commit.".into());
+    }
+    let commit = reg.commit.clone();
+    reg.plugins.retain(|e| entry_valid(e, &commit));
+    Ok(reg)
+}
+
+fn source_of(state: &AppState, id: &str) -> Option<Value> {
+    std::fs::read_to_string(plugins_dir(state).join(id).join(SOURCE_FILE)).ok().and_then(|s| serde_json::from_str(&s).ok())
+}
+
+/// The signed featured list, each entry marked with what's installed here.
+pub async fn registry(state: &Arc<AppState>) -> Value {
+    match fetch_registry().await {
+        Ok(reg) => {
+            let plugins: Vec<Value> = reg
+                .plugins
+                .iter()
+                .map(|e| {
+                    let local = load_manifest(&plugins_dir(state).join(&e.id));
+                    let reviewed = source_of(state, &e.id).is_some_and(|s| s["source"] == "featured");
+                    json!({
+                        "id": e.id,
+                        "name": e.name,
+                        "version": e.version,
+                        "author": e.author,
+                        "description": e.description,
+                        "featured": e.featured,
+                        "installed": local.is_some(),
+                        "installedVersion": local.map(|m| m.version),
+                        "installedReviewed": reviewed,
+                    })
+                })
+                .collect();
+            json!({ "plugins": plugins })
+        }
+        Err(e) => json!({ "plugins": [], "error": e }),
+    }
+}
+
+/// Install (or update) a featured plugin: download every file, check its size and SHA-256 against
+/// the signed list, and only then write it. Installed disabled, like any plugin.
+pub async fn install_featured(state: &Arc<AppState>, id: &str) -> Result<Value, String> {
+    if !safe_id(id) {
+        return Err("bad plugin id".into());
+    }
+    let reg = fetch_registry().await?;
+    let entry = reg.plugins.iter().find(|e| e.id == id).ok_or("That plugin isn't in the featured list.")?;
+    let client = registry_client()?;
+    let mut items: Vec<(String, Vec<u8>)> = vec![];
+    for f in &entry.files {
+        let mut res = client.get(&f.url).send().await.map_err(|e| e.to_string())?.error_for_status().map_err(|e| e.to_string())?;
+        let mut bytes: Vec<u8> = vec![];
+        while let Some(chunk) = res.chunk().await.map_err(|e| e.to_string())? {
+            bytes.extend_from_slice(&chunk);
+            if bytes.len() as u64 > f.size {
+                return Err(format!("{} is bigger than the list says. Not installed.", f.path));
+            }
+        }
+        if bytes.len() as u64 != f.size {
+            return Err(format!("{} isn't the size the list says. Not installed.", f.path));
+        }
+        use sha2::{Digest, Sha256};
+        let got = format!("{:x}", Sha256::digest(&bytes));
+        if !got.eq_ignore_ascii_case(&f.sha256) {
+            return Err(format!("{} doesn't match its reviewed hash. Not installed.", f.path));
+        }
+        items.push((f.path.clone(), bytes));
+    }
+    let written = write_plugin(state, &items)?;
+    if written != entry.id {
+        let _ = std::fs::remove_dir_all(plugins_dir(state).join(&written));
+        return Err("The plugin's files don't match its listing. Not installed.".into());
+    }
+    let marker = json!({ "source": "featured", "version": entry.version, "commit": reg.commit });
+    let _ = std::fs::write(plugins_dir(state).join(&entry.id).join(SOURCE_FILE), marker.to_string());
+    Ok(list(state))
+}
+
 #[cfg(test)]
 mod tests {
     use super::{entry_ok, safe_id, safe_rel};
+
+    /// Live check against dsk.wtf: fetch the signed featured list, verify it, and install the
+    /// first plugin into a throwaway folder. Run with: cargo test --release live_registry -- --ignored
+    #[test]
+    #[ignore]
+    fn live_registry() {
+        let dir = std::env::temp_dir().join(format!("ruby-plugin-test-{}", std::process::id()));
+        let _ = std::fs::remove_dir_all(&dir);
+        let state = crate::state::AppState::new(dir.clone());
+        tauri::async_runtime::block_on(async {
+            let reg = super::fetch_registry().await.expect("registry");
+            assert!(!reg.plugins.is_empty(), "no plugins listed");
+            let id = reg.plugins[0].id.clone();
+            super::install_featured(&state, &id).await.expect("install");
+            let listed = super::list(&state);
+            let p = listed["plugins"].as_array().unwrap().iter().find(|p| p["id"] == id.as_str()).expect("installed").clone();
+            assert_eq!(p["source"], "featured");
+            assert_eq!(p["enabled"], false, "featured installs must start disabled");
+            println!("installed {id} from the signed list: {p}");
+        });
+        let _ = std::fs::remove_dir_all(&dir);
+    }
 
     #[test]
     fn ids() {
