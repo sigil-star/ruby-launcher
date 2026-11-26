@@ -1506,5 +1506,6 @@
   "No featured plugins yet. Check back soon, or submit your own.": "Inga utvalda plugins än. Kom tillbaka snart, eller skicka in ditt eget.",
   "Install from folder": "Installera från mapp",
   "Not reviewed": "Ej granskad",
-  "No plugins installed yet. Pick one from Featured, or install your own from a folder.": "Inga plugins installerade än. Välj ett från Utvalda, eller installera ditt eget från en mapp."
+  "No plugins installed yet. Pick one from Featured, or install your own from a folder.": "Inga plugins installerade än. Välj ett från Utvalda, eller installera ditt eget från en mapp.",
+  "{name} settings": "Inställningar för {name}"
 }

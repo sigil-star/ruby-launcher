@@ -1506,5 +1506,6 @@
   "No featured plugins yet. Check back soon, or submit your own.": "Belum ada plugin unggulan. Cek lagi nanti, atau kirim punyamu.",
   "Install from folder": "Pasang dari folder",
   "Not reviewed": "Belum ditinjau",
-  "No plugins installed yet. Pick one from Featured, or install your own from a folder.": "Belum ada plugin terpasang. Pilih dari Unggulan, atau pasang punyamu dari folder."
+  "No plugins installed yet. Pick one from Featured, or install your own from a folder.": "Belum ada plugin terpasang. Pilih dari Unggulan, atau pasang punyamu dari folder.",
+  "{name} settings": "Pengaturan {name}"
 }

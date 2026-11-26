@@ -1506,5 +1506,6 @@
   "No featured plugins yet. Check back soon, or submit your own.": "Chưa có plugin nổi bật. Quay lại sau, hoặc gửi plugin của bạn.",
   "Install from folder": "Cài từ thư mục",
   "Not reviewed": "Chưa duyệt",
-  "No plugins installed yet. Pick one from Featured, or install your own from a folder.": "Chưa cài plugin nào. Chọn một cái ở Nổi bật, hoặc cài của bạn từ thư mục."
+  "No plugins installed yet. Pick one from Featured, or install your own from a folder.": "Chưa cài plugin nào. Chọn một cái ở Nổi bật, hoặc cài của bạn từ thư mục.",
+  "{name} settings": "Cài đặt {name}"
 }

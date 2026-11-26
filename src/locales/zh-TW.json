@@ -1506,5 +1506,6 @@
   "No featured plugins yet. Check back soon, or submit your own.": "目前沒有精選外掛。之後再來看看，或提交你自己的外掛。",
   "Install from folder": "從資料夾安裝",
   "Not reviewed": "未審核",
-  "No plugins installed yet. Pick one from Featured, or install your own from a folder.": "還沒有安裝外掛。從「精選」挑一個，或從資料夾安裝你自己的外掛。"
+  "No plugins installed yet. Pick one from Featured, or install your own from a folder.": "還沒有安裝外掛。從「精選」挑一個，或從資料夾安裝你自己的外掛。",
+  "{name} settings": "{name} 設定"
 }

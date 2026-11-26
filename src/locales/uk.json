@@ -1506,5 +1506,6 @@
   "No featured plugins yet. Check back soon, or submit your own.": "Рекомендованих плагінів поки немає. Загляньте пізніше або запропонуйте свій.",
   "Install from folder": "Встановити з теки",
   "Not reviewed": "Не перевірено",
-  "No plugins installed yet. Pick one from Featured, or install your own from a folder.": "Плагінів ще немає. Виберіть у «Рекомендованих» або встановіть свій із теки."
+  "No plugins installed yet. Pick one from Featured, or install your own from a folder.": "Плагінів ще немає. Виберіть у «Рекомендованих» або встановіть свій із теки.",
+  "{name} settings": "Налаштування {name}"
 }

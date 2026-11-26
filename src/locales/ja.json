@@ -1506,5 +1506,6 @@
   "No featured plugins yet. Check back soon, or submit your own.": "おすすめのプラグインはまだありません。また見に来るか、自分のを投稿してください。",
   "Install from folder": "フォルダからインストール",
   "Not reviewed": "未審査",
-  "No plugins installed yet. Pick one from Featured, or install your own from a folder.": "まだプラグインがありません。おすすめから選ぶか、フォルダから自分のをインストールしてください。"
+  "No plugins installed yet. Pick one from Featured, or install your own from a folder.": "まだプラグインがありません。おすすめから選ぶか、フォルダから自分のをインストールしてください。",
+  "{name} settings": "{name}の設定"
 }

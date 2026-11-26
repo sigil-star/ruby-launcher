@@ -1,6 +1,6 @@
 [package]
 name = "ruby-setup"
-version = "1.0.14"
+version = "1.0.15"
 description = "Ruby Launcher Setup"
 authors = ["Ruby Launcher"]
 edition = "2021"

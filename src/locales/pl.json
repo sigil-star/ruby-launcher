@@ -1506,5 +1506,6 @@
   "No featured plugins yet. Check back soon, or submit your own.": "Brak polecanych wtyczek. Zajrzyj później albo zgłoś własną.",
   "Install from folder": "Zainstaluj z folderu",
   "Not reviewed": "Niesprawdzona",
-  "No plugins installed yet. Pick one from Featured, or install your own from a folder.": "Brak zainstalowanych wtyczek. Wybierz z Polecanych albo zainstaluj własną z folderu."
+  "No plugins installed yet. Pick one from Featured, or install your own from a folder.": "Brak zainstalowanych wtyczek. Wybierz z Polecanych albo zainstaluj własną z folderu.",
+  "{name} settings": "Ustawienia: {name}"
 }

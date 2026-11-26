@@ -224,13 +224,58 @@ export async function loadPlugins(host: HostContext) {
     if (!info.enabled || !info.code) continue;
     const { api, dispose } = makeApi(info, host);
     disposers.push(dispose);
-    try {
-      // The plugin's code runs with `ruby` as its only injected name. "use strict" keeps it tidy.
-      const run = new Function("ruby", `"use strict";\n${info.code}`);
-      run(api);
-    } catch (e) {
-      console.error(`[plugin ${info.id}]`, e);
-      host.toast(`Plugin "${info.name}" failed to load.`, "error");
-    }
+    const ok = await runPlugin(info, api);
+    if (!ok) host.toast(`Plugin "${info.name}" failed to load.`, "error");
   }
+}
+
+// Ruby's content policy forbids eval/new Function, so each plugin runs as its own script from an
+// in-memory (blob:) file. The script receives its `ruby` object through a one-time random token,
+// so no other code can take another plugin's API.
+type Pending = { api: unknown; error?: unknown; taken?: boolean };
+const pending = new Map<string, Pending>();
+declare global {
+  interface Window {
+    __rubyPluginTake?: (token: string) => unknown;
+    __rubyPluginFail?: (token: string, error: unknown) => void;
+  }
+}
+window.__rubyPluginTake = (token) => {
+  const p = pending.get(token);
+  if (!p || p.taken) return undefined;
+  p.taken = true;
+  return p.api;
+};
+window.__rubyPluginFail = (token, error) => {
+  const p = pending.get(token);
+  if (p) p.error = error;
+};
+
+function runPlugin(info: PluginInfo, api: unknown): Promise<boolean> {
+  const token = crypto.randomUUID();
+  pending.set(token, { api });
+  const t = JSON.stringify(token);
+  const src =
+    `(function () {\n"use strict";\nvar __ruby = window.__rubyPluginTake(${t});\nif (!__ruby) return;\n` +
+    `try { (function (ruby) {\n"use strict";\n${info.code}\n}).call(undefined, __ruby); }\n` +
+    `catch (e) { window.__rubyPluginFail(${t}, e); }\n})();\n//# sourceURL=ruby-plugin://${encodeURIComponent(info.id)}/index.js\n`;
+  const url = URL.createObjectURL(new Blob([src], { type: "text/javascript" }));
+  return new Promise((resolve) => {
+    const el = document.createElement("script");
+    el.src = url;
+    el.dataset.plugin = info.id;
+    const done = () => {
+      URL.revokeObjectURL(url);
+      el.remove();
+      const p = pending.get(token);
+      pending.delete(token);
+      // Not taken = the script didn't run at all (e.g. a syntax error).
+      const ok = !!p && !!p.taken && p.error === undefined;
+      if (!ok) console.error(`[plugin ${info.id}] failed to load`, p?.error ?? "script did not run");
+      resolve(ok);
+    };
+    el.onload = done;
+    el.onerror = done;
+    document.head.append(el);
+  });
 }

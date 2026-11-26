@@ -100,7 +100,7 @@ editing, click **Refresh** to reload it. A full example lives in
 | `ruby.registerPage({ id, label, icon?, iconUrl?, mount })` | Adds a button to the left bar. `icon` is a built-in icon name; pass `iconUrl: ruby.iconUrl` to use your plugin's own icon. `mount(container)` draws into a plain DOM element and may return a cleanup function. |
 | `ruby.iconUrl` | Your plugin's icon as an image URL (or `null`). |
 | `ruby.addStyles(css)` | Adds CSS to Ruby; returns a function that removes it, and it's removed automatically when the plugin turns off. CSS that loads anything (`url()`, `@import`) is refused. Max 50 KB. |
-| `ruby.registerSettings({ id, title, mount })` | Adds a section under Ruby Settings › General. |
+| `ruby.registerSettings({ id, title, mount })` | Adds a settings section. Users open it from the ⚙ on your plugin's card in Plugins (it also appears in Ruby Settings › General). |
 | `ruby.registerCustomizeTab({ id, label, icon?, mount })` | Adds a tab to the Customize page. |
 | `ruby.on(event, cb)` | `"navigate"` (`{ name }`), `"gameLaunch"` (`{ placeId, jobId }`), `"gameLeave"`. |
 | `ruby.onUnload(cb)` | Runs when the plugin is turned off or reloaded. |

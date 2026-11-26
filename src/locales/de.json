@@ -1506,5 +1506,6 @@
   "No featured plugins yet. Check back soon, or submit your own.": "Noch keine empfohlenen Plugins. Schau bald wieder vorbei oder reiche dein eigenes ein.",
   "Install from folder": "Aus Ordner installieren",
   "Not reviewed": "Nicht geprüft",
-  "No plugins installed yet. Pick one from Featured, or install your own from a folder.": "Noch keine Plugins installiert. Wähle eins unter Empfohlen oder installiere dein eigenes aus einem Ordner."
+  "No plugins installed yet. Pick one from Featured, or install your own from a folder.": "Noch keine Plugins installiert. Wähle eins unter Empfohlen oder installiere dein eigenes aus einem Ordner.",
+  "{name} settings": "Einstellungen für {name}"
 }

@@ -1506,5 +1506,6 @@
   "No featured plugins yet. Check back soon, or submit your own.": "Aún no hay plugins destacados. Vuelve pronto o envía el tuyo.",
   "Install from folder": "Instalar desde carpeta",
   "Not reviewed": "Sin revisar",
-  "No plugins installed yet. Pick one from Featured, or install your own from a folder.": "Aún no hay plugins instalados. Elige uno de Destacados o instala el tuyo desde una carpeta."
+  "No plugins installed yet. Pick one from Featured, or install your own from a folder.": "Aún no hay plugins instalados. Elige uno de Destacados o instala el tuyo desde una carpeta.",
+  "{name} settings": "Ajustes de {name}"
 }

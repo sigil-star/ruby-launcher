@@ -111,6 +111,8 @@ export function Plugins() {
   const fileRef = useRef<HTMLInputElement>(null);
   const [installing, setInstalling] = useState(false);
   const [tab, setTab] = useState<"featured" | "installed">("featured");
+  const [settingsFor, setSettingsFor] = useState<PluginInfo | null>(null);
+  const allSettings = usePluginSettings();
   const q = useQuery({ queryKey: ["plugins"], queryFn: () => call<{ plugins: PluginInfo[]; dir: string }>("listPlugins") });
 
   const reload = async () => {
@@ -309,6 +311,11 @@ export function Plugins() {
                     </div>
                   </div>
                   <div className="plugin-card-actions">
+                    {p.enabled && allSettings.some((x) => x.pluginId === p.id) ? (
+                      <button className="btn btn-ghost btn-small" onClick={() => setSettingsFor(p)} title={t("Settings")} aria-label={t("{name} settings", { name: p.name })}>
+                        <Icon name="gear" size={18} />
+                      </button>
+                    ) : null}
                     <button className="btn btn-ghost btn-small" onClick={() => void remove(p)} title={t("Remove")}>
                       <Icon name="x-small" size={16} />
                     </button>
@@ -324,6 +331,24 @@ export function Plugins() {
           )}
         </>
       )}
+
+      {settingsFor ? (
+        <div className="modal-scrim" onClick={() => setSettingsFor(null)}>
+          <div className="buy-dialog plugin-settings-dialog" role="dialog" aria-label={t("{name} settings", { name: settingsFor.name })} onClick={(e) => e.stopPropagation()}>
+            <div className="buy-head">
+              <h2>{t("{name} settings", { name: settingsFor.name })}</h2>
+              <button className="icon-btn" onClick={() => setSettingsFor(null)} aria-label={t("Close")}>
+                <Icon name="x-small" size={20} />
+              </button>
+            </div>
+            {allSettings
+              .filter((x) => x.pluginId === settingsFor.id)
+              .map((sec) => (
+                <SectionMount key={`${sec.pluginId}:${sec.id}`} section={sec} />
+              ))}
+          </div>
+        </div>
+      ) : null}
 
       <button className="link small plugins-docs" onClick={() => void win.openExternal(DOCS_URL)}>
         {t("How to make a plugin")}

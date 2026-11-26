@@ -1506,5 +1506,6 @@
   "No featured plugins yet. Check back soon, or submit your own.": "Ainda não há plugins em destaque. Volte em breve ou envie o seu.",
   "Install from folder": "Instalar de uma pasta",
   "Not reviewed": "Não revisado",
-  "No plugins installed yet. Pick one from Featured, or install your own from a folder.": "Nenhum plugin instalado ainda. Escolha um em Destaques ou instale o seu de uma pasta."
+  "No plugins installed yet. Pick one from Featured, or install your own from a folder.": "Nenhum plugin instalado ainda. Escolha um em Destaques ou instale o seu de uma pasta.",
+  "{name} settings": "Configurações de {name}"
 }

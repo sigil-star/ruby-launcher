@@ -1506,5 +1506,6 @@
   "No featured plugins yet. Check back soon, or submit your own.": "Nog geen uitgelichte plugins. Kom later terug, of stuur je eigen in.",
   "Install from folder": "Installeren uit map",
   "Not reviewed": "Niet gecontroleerd",
-  "No plugins installed yet. Pick one from Featured, or install your own from a folder.": "Nog geen plugins geïnstalleerd. Kies er een uit Uitgelicht, of installeer je eigen uit een map."
+  "No plugins installed yet. Pick one from Featured, or install your own from a folder.": "Nog geen plugins geïnstalleerd. Kies er een uit Uitgelicht, of installeer je eigen uit een map.",
+  "{name} settings": "Instellingen voor {name}"
 }

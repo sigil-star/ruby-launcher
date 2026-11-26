@@ -1506,5 +1506,6 @@
   "No featured plugins yet. Check back soon, or submit your own.": "暂无精选插件。稍后再来看看，或提交你自己的插件。",
   "Install from folder": "从文件夹安装",
   "Not reviewed": "未审核",
-  "No plugins installed yet. Pick one from Featured, or install your own from a folder.": "还没有安装插件。从“精选”中挑一个，或从文件夹安装你自己的插件。"
+  "No plugins installed yet. Pick one from Featured, or install your own from a folder.": "还没有安装插件。从“精选”中挑一个，或从文件夹安装你自己的插件。",
+  "{name} settings": "{name} 设置"
 }

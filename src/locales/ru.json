@@ -1506,5 +1506,6 @@
   "No featured plugins yet. Check back soon, or submit your own.": "Рекомендуемых плагинов пока нет. Загляните позже или предложите свой.",
   "Install from folder": "Установить из папки",
   "Not reviewed": "Не проверено",
-  "No plugins installed yet. Pick one from Featured, or install your own from a folder.": "Плагинов пока нет. Выберите в «Рекомендуемых» или установите свой из папки."
+  "No plugins installed yet. Pick one from Featured, or install your own from a folder.": "Плагинов пока нет. Выберите в «Рекомендуемых» или установите свой из папки.",
+  "{name} settings": "Настройки {name}"
 }

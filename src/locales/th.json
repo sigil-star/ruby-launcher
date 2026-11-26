@@ -1506,5 +1506,6 @@
   "No featured plugins yet. Check back soon, or submit your own.": "ยังไม่มีปลั๊กอินแนะนำ กลับมาดูใหม่ หรือส่งของคุณเอง",
   "Install from folder": "ติดตั้งจากโฟลเดอร์",
   "Not reviewed": "ยังไม่ตรวจ",
-  "No plugins installed yet. Pick one from Featured, or install your own from a folder.": "ยังไม่มีปลั๊กอินที่ติดตั้ง เลือกจากแนะนำ หรือติดตั้งของคุณเองจากโฟลเดอร์"
+  "No plugins installed yet. Pick one from Featured, or install your own from a folder.": "ยังไม่มีปลั๊กอินที่ติดตั้ง เลือกจากแนะนำ หรือติดตั้งของคุณเองจากโฟลเดอร์",
+  "{name} settings": "การตั้งค่า {name}"
 }

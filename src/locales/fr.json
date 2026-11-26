@@ -1506,5 +1506,6 @@
   "No featured plugins yet. Check back soon, or submit your own.": "Pas encore de plugins en vedette. Revenez bientôt, ou proposez le vôtre.",
   "Install from folder": "Installer depuis un dossier",
   "Not reviewed": "Non vérifié",
-  "No plugins installed yet. Pick one from Featured, or install your own from a folder.": "Aucun plugin installé. Choisissez-en un dans En vedette, ou installez le vôtre depuis un dossier."
+  "No plugins installed yet. Pick one from Featured, or install your own from a folder.": "Aucun plugin installé. Choisissez-en un dans En vedette, ou installez le vôtre depuis un dossier.",
+  "{name} settings": "Paramètres de {name}"
 }

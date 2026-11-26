@@ -440,14 +440,51 @@ fn source_of(state: &AppState, id: &str) -> Option<Value> {
     std::fs::read_to_string(plugins_dir(state).join(id).join(SOURCE_FILE)).ok().and_then(|s| serde_json::from_str(&s).ok())
 }
 
+/// Verified featured icons, by URL (they're pinned to a commit, so they never change).
+static ICONS: once_cell::sync::Lazy<parking_lot::Mutex<std::collections::HashMap<String, String>>> = once_cell::sync::Lazy::new(Default::default);
+
+/// Download a featured plugin's icon, check its size and SHA-256 against the signed list, and
+/// return it as a data: URL the page can show without loading anything itself.
+async fn featured_icon(client: &reqwest::Client, f: &RegFile) -> Option<String> {
+    if let Some(hit) = ICONS.lock().get(&f.url).cloned() {
+        return Some(hit);
+    }
+    let mime = icon_mime(&f.path)?;
+    if f.size > MAX_ICON {
+        return None;
+    }
+    let bytes = client.get(&f.url).send().await.ok()?.error_for_status().ok()?.bytes().await.ok()?;
+    if bytes.len() as u64 != f.size {
+        return None;
+    }
+    use sha2::{Digest, Sha256};
+    if !format!("{:x}", Sha256::digest(&bytes)).eq_ignore_ascii_case(&f.sha256) {
+        return None;
+    }
+    let url = format!("data:{mime};base64,{}", base64::engine::general_purpose::STANDARD.encode(&bytes));
+    ICONS.lock().insert(f.url.clone(), url.clone());
+    Some(url)
+}
+
 /// The signed featured list, each entry marked with what's installed here.
 pub async fn registry(state: &Arc<AppState>) -> Value {
     match fetch_registry().await {
         Ok(reg) => {
+            let client = registry_client().ok();
+            // Icons are small and cached after the first fetch, so one at a time is fine.
+            let mut icons: Vec<Option<String>> = Vec::with_capacity(reg.plugins.len());
+            for e in &reg.plugins {
+                let file = e.files.iter().find(|f| !e.icon.is_empty() && f.path == e.icon);
+                icons.push(match (&client, file) {
+                    (Some(c), Some(f)) => featured_icon(c, f).await,
+                    _ => None,
+                });
+            }
             let plugins: Vec<Value> = reg
                 .plugins
                 .iter()
-                .map(|e| {
+                .zip(icons)
+                .map(|(e, icon)| {
                     let local = load_manifest(&plugins_dir(state).join(&e.id));
                     let reviewed = source_of(state, &e.id).is_some_and(|s| s["source"] == "featured");
                     json!({
@@ -457,7 +494,7 @@ pub async fn registry(state: &Arc<AppState>) -> Value {
                         "author": e.author,
                         "description": e.description,
                         "featured": e.featured,
-                        "iconUrl": e.files.iter().find(|f| !e.icon.is_empty() && f.path == e.icon).map(|f| f.url.clone()),
+                        "iconUrl": icon,
                         "installed": local.is_some(),
                         "installedVersion": local.map(|m| m.version),
                         "installedReviewed": reviewed,

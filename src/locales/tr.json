@@ -1506,5 +1506,6 @@
   "No featured plugins yet. Check back soon, or submit your own.": "Henüz öne çıkan eklenti yok. Sonra tekrar bak ya da kendininkini gönder.",
   "Install from folder": "Klasörden kur",
   "Not reviewed": "İncelenmedi",
-  "No plugins installed yet. Pick one from Featured, or install your own from a folder.": "Henüz kurulu eklenti yok. Öne çıkanlardan seç ya da kendininkini bir klasörden kur."
+  "No plugins installed yet. Pick one from Featured, or install your own from a folder.": "Henüz kurulu eklenti yok. Öne çıkanlardan seç ya da kendininkini bir klasörden kur.",
+  "{name} settings": "{name} ayarları"
 }

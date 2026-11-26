@@ -1506,5 +1506,6 @@
   "No featured plugins yet. Check back soon, or submit your own.": "لا توجد إضافات مميزة بعد. عُد لاحقًا أو أرسل إضافتك.",
   "Install from folder": "التثبيت من مجلد",
   "Not reviewed": "غير مراجَعة",
-  "No plugins installed yet. Pick one from Featured, or install your own from a folder.": "لا توجد إضافات مثبتة بعد. اختر واحدة من المميزة أو ثبّت إضافتك من مجلد."
+  "No plugins installed yet. Pick one from Featured, or install your own from a folder.": "لا توجد إضافات مثبتة بعد. اختر واحدة من المميزة أو ثبّت إضافتك من مجلد.",
+  "{name} settings": "إعدادات {name}"
 }

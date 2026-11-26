@@ -1506,5 +1506,6 @@
   "No featured plugins yet. Check back soon, or submit your own.": "아직 추천 플러그인이 없어요. 나중에 다시 오거나 직접 제출해 보세요.",
   "Install from folder": "폴더에서 설치",
   "Not reviewed": "검토 안 됨",
-  "No plugins installed yet. Pick one from Featured, or install your own from a folder.": "아직 설치된 플러그인이 없어요. 추천에서 고르거나 폴더에서 직접 설치하세요."
+  "No plugins installed yet. Pick one from Featured, or install your own from a folder.": "아직 설치된 플러그인이 없어요. 추천에서 고르거나 폴더에서 직접 설치하세요.",
+  "{name} settings": "{name} 설정"
 }

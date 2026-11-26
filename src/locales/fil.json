@@ -1506,5 +1506,6 @@
   "No featured plugins yet. Check back soon, or submit your own.": "Wala pang itinatampok na plugin. Bumalik mamaya, o isumite ang sa iyo.",
   "Install from folder": "I-install mula sa folder",
   "Not reviewed": "Hindi nasuri",
-  "No plugins installed yet. Pick one from Featured, or install your own from a folder.": "Wala pang naka-install na plugin. Pumili sa Itinatampok, o i-install ang sa iyo mula sa folder."
+  "No plugins installed yet. Pick one from Featured, or install your own from a folder.": "Wala pang naka-install na plugin. Pumili sa Itinatampok, o i-install ang sa iyo mula sa folder.",
+  "{name} settings": "Mga setting ng {name}"
 }

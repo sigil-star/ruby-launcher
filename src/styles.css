@@ -2416,3 +2416,6 @@ input[type="color"]::-webkit-color-swatch { border: 2px solid rgba(255,255,255,0
 .plugin-icon { flex: none; width: 48px; height: 48px; border-radius: calc(12px * var(--round, 1)); display: grid; place-items: center; background: var(--surface-3); color: var(--text-2); overflow: hidden; }
 .plugin-icon img { width: 100%; height: 100%; object-fit: cover; }
 .rail-plugin-icon { width: 24px; height: 24px; border-radius: 6px; object-fit: cover; }
+
+.plugin-settings-dialog { width: min(640px, calc(100vw - 48px)); max-height: calc(100vh - 80px); overflow-y: auto; }
+.plugin-settings-dialog .plugin-settings-section { margin-top: 0; }

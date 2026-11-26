@@ -69,5 +69,10 @@
     "New featured plugins: Avatar Frames (animated rings by online status), Session Stats, Notepad and Chroma",
     "Plugins can have their own icons",
     "Sliders and plugin highlights now use your accent color"
+  ],
+  "1.0.15": [
+    "Fixed: plugins failing to load",
+    "Fixed: featured plugin icons not showing",
+    "A settings cog on each plugin that has options"
   ]
 }
