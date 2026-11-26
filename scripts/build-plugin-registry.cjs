@@ -55,7 +55,7 @@ const plugins = fs
         return { path: rel, url: `${RAW}${commit}/plugins/${id}/${rel}`, sha256: crypto.createHash("sha256").update(bytes).digest("hex"), size: bytes.length };
       })
       .sort((a, b) => a.path.localeCompare(b.path));
-    return { id, name: m.name, version: m.version, author: m.author, description: m.description, featured: featured.has(id), files };
+    return { id, name: m.name, version: m.version, author: m.author, description: m.description, featured: featured.has(id), icon: m.icon || "", files };
   })
   .sort((a, b) => Number(b.featured) - Number(a.featured) || a.name.localeCompare(b.name));
 

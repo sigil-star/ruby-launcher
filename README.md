@@ -15,6 +15,10 @@ Installer build (NSIS): `npm run tauri:build`
 
 Requires Node 20+, Rust stable and the WebView2 runtime.
 
+`npm run build:setup` (the single-file installer) and `npm run export:dsk` (publishing to dsk.wtf)
+are maintainer tools: they need the skybox art and the release signing key, which aren't in this
+repo. Everything else builds from a fresh clone.
+
 ## What it does
 
 - **Home**: friends row with presence, recommendations, Continue, and a Charts tab.

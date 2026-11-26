@@ -96,7 +96,13 @@ type FeaturedPlugin = {
   installed: boolean;
   installedVersion?: string | null;
   installedReviewed: boolean;
+  iconUrl?: string | null;
 };
+
+/** A plugin's icon, or a puzzle piece when it has none. */
+function PluginIcon({ src }: { src?: string | null }) {
+  return <span className="plugin-icon">{src ? <img src={src} alt="" draggable={false} /> : <Icon name="puzzle" size={26} />}</span>;
+}
 
 /** Manage installed plugins: turn them on or off, remove them, or open the folder to add more. */
 export function Plugins() {
@@ -233,6 +239,7 @@ export function Plugins() {
                 const label = upToDate ? t("Installed") : p.installed && p.installedReviewed ? t("Update") : p.installed ? t("Replace with reviewed") : t("Install");
                 return (
                   <div key={p.id} className={`plugin-card ${p.featured ? "featured" : ""}`}>
+                    <PluginIcon src={p.iconUrl} />
                     <div className="plugin-meta">
                       <div className="plugin-name">
                         {p.name} <span className="muted small">{p.version ? `v${p.version}` : ""}</span>
@@ -286,6 +293,7 @@ export function Plugins() {
             <div className="plugin-list">
               {plugins.map((p) => (
                 <div key={p.id} className={`plugin-card ${p.enabled ? "on" : ""}`}>
+                  <PluginIcon src={p.icon} />
                   <div className="plugin-meta">
                     <div className="plugin-name">
                       {p.name} <span className="muted small">{p.version ? `v${p.version}` : ""}</span>

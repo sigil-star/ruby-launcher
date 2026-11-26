@@ -2,6 +2,7 @@ import { Fragment, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import type { CSSProperties, ReactNode } from "react";
 import { useThumb, type ThumbType } from "../lib/thumbs";
+import { kindOf, usePresenceKind } from "../lib/presenceMap";
 import { t, fmtNum } from "../lib/i18n";
 
 /* Builder icons from public/icons, tinted with currentColor via CSS mask. */
@@ -87,8 +88,16 @@ export function Headshot({ userId, size = 40, presence, className = "" }: { user
   const url = useThumb("AvatarHeadShot", userId);
   const [loaded, setLoaded] = useState(false);
   useEffect(() => setLoaded(false), [url]);
+  // Status for styling (plugins use it, e.g. avatar frames): the prop if given, else what Ruby knows.
+  const known = usePresenceKind(userId);
+  const status = presence != null ? kindOf(presence) : known;
   return (
-    <div className={`headshot ${className} ${loaded ? "loaded" : "loading"}`} style={{ width: size, height: size }}>
+    <div
+      className={`headshot ${className} ${loaded ? "loaded" : "loading"}`}
+      style={{ width: size, height: size }}
+      data-user={userId || undefined}
+      data-presence={status}
+    >
       {url ? <img src={url} alt="" draggable={false} onLoad={() => setLoaded(true)} onError={() => setLoaded(true)} /> : null}
       {presence ? <span className={`presence-dot p${presence}`} /> : null}
     </div>

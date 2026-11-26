@@ -14,9 +14,9 @@ import { call } from "./ipc";
 
 export const PLUGIN_API_VERSION = 1;
 
-export type PluginInfo = { id: string; name: string; version: string; author: string; description: string; enabled: boolean; source?: "featured" | "local"; code?: string | null };
+export type PluginInfo = { id: string; name: string; version: string; author: string; description: string; enabled: boolean; source?: "featured" | "local"; icon?: string | null; code?: string | null };
 
-export type PluginPage = { pluginId: string; id: string; label: string; icon?: string; mount: (container: HTMLElement) => void | (() => void) };
+export type PluginPage = { pluginId: string; id: string; label: string; icon?: string; iconUrl?: string | null; mount: (container: HTMLElement) => void | (() => void) };
 export type PluginSettings = { pluginId: string; id: string; title: string; mount: (container: HTMLElement) => void | (() => void) };
 export type PluginCustomizeTab = { pluginId: string; id: string; label: string; icon?: string; mount: (container: HTMLElement) => void | (() => void) };
 
@@ -82,8 +82,10 @@ function makeApi(info: PluginInfo, host: HostContext) {
     apiVersion: PLUGIN_API_VERSION,
 
     /** Add a page with a button in the left bar. `mount` draws into the given element. */
-    registerPage(page: { id: string; label: string; icon?: string; mount: (container: HTMLElement) => void | (() => void) }) {
-      const entry: PluginPage = { pluginId: info.id, ...page };
+    registerPage(page: { id: string; label: string; icon?: string; iconUrl?: string | null; mount: (container: HTMLElement) => void | (() => void) }) {
+      // Only the plugin's own icon (a data: URL Ruby made from its folder) can be used as an image.
+      const iconUrl = page.iconUrl && page.iconUrl === info.icon ? page.iconUrl : null;
+      const entry: PluginPage = { pluginId: info.id, ...page, iconUrl };
       registry.pages.push(entry);
       removers.push(() => {
         registry.pages = registry.pages.filter((p) => p !== entry) as PluginPage[];
@@ -129,6 +131,26 @@ function makeApi(info: PluginInfo, host: HostContext) {
         }
       });
     },
+
+    /** Add CSS to Ruby (e.g. avatar frames). Removed automatically when the plugin is turned off.
+     *  CSS can't load anything: url(), @import and similar are refused. Returns a remove function. */
+    addStyles(css: string): () => void {
+      const text = String(css);
+      if (text.length > 50_000) throw new Error("ruby.addStyles: CSS is too large (50 KB max)");
+      if (/@import|url\s*\(|image-set\s*\(|expression\s*\(|javascript:|behavior\s*:|-moz-binding/i.test(text)) {
+        throw new Error("ruby.addStyles: CSS can't load resources (url(), @import)");
+      }
+      const el = document.createElement("style");
+      el.dataset.plugin = info.id;
+      el.textContent = text;
+      document.head.append(el);
+      const remove = () => el.remove();
+      removers.push(remove);
+      return remove;
+    },
+
+    /** The plugin's own icon (from "icon" in plugin.json) as an image URL, or null. */
+    iconUrl: info.icon ?? null,
 
     /** Public info about the signed-in user. Never includes the Roblox session. */
     user: host.user,

@@ -25,6 +25,9 @@ struct Manifest {
     description: String,
     #[serde(default = "default_entry")]
     entry: String,
+    /// Optional icon file in the plugin folder (png, svg or webp, up to 256 KB).
+    #[serde(default)]
+    icon: String,
 }
 
 fn default_entry() -> String {
@@ -79,6 +82,35 @@ fn entry_ok(entry: &str) -> bool {
         && !std::path::Path::new(entry).is_absolute()
 }
 
+const MAX_ICON: u64 = 256 * 1024;
+
+fn icon_mime(path: &str) -> Option<&'static str> {
+    let lower = path.to_ascii_lowercase();
+    if lower.ends_with(".png") {
+        Some("image/png")
+    } else if lower.ends_with(".svg") {
+        Some("image/svg+xml")
+    } else if lower.ends_with(".webp") {
+        Some("image/webp")
+    } else {
+        None
+    }
+}
+
+/// A plugin's icon as a data: URL (shown in <img>, where SVG scripts never run).
+fn icon_data_url(dir: &Path, icon: &str) -> Option<String> {
+    if icon.is_empty() || !entry_ok(icon) {
+        return None;
+    }
+    let mime = icon_mime(icon)?;
+    let p = dir.join(icon);
+    if std::fs::metadata(&p).ok()?.len() > MAX_ICON {
+        return None;
+    }
+    let bytes = std::fs::read(&p).ok()?;
+    Some(format!("data:{mime};base64,{}", base64::engine::general_purpose::STANDARD.encode(bytes)))
+}
+
 /// Every installed plugin, each with its manifest, whether it's enabled, and (when enabled) its
 /// JavaScript source so the frontend host can run it. Disabled plugins ship no code.
 pub fn list(state: &Arc<AppState>) -> Value {
@@ -102,6 +134,7 @@ pub fn list(state: &Arc<AppState>) -> Value {
                 "author": m.author,
                 "description": m.description,
                 "enabled": on,
+                "icon": icon_data_url(&e.path(), &m.icon),
                 "source": if source_of(state, &m.id).is_some_and(|s| s["source"] == "featured") { "featured" } else { "local" },
                 "code": code,
             }));
@@ -338,6 +371,8 @@ struct RegEntry {
     description: String,
     #[serde(default)]
     featured: bool,
+    #[serde(default)]
+    icon: String,
     files: Vec<RegFile>,
 }
 
@@ -370,6 +405,7 @@ fn entry_valid(e: &RegEntry, commit: &str) -> bool {
         && !e.files.is_empty()
         && e.files.len() <= 200
         && e.files.iter().any(|f| f.path == "plugin.json")
+        && (e.icon.is_empty() || (icon_mime(&e.icon).is_some() && e.files.iter().any(|f| f.path == e.icon && f.size <= MAX_ICON)))
         && e.files.iter().all(|f| {
             safe_rel(&f.path).as_deref() == Some(f.path.as_str())
                 && is_hex(&f.sha256, 64)
@@ -421,6 +457,7 @@ pub async fn registry(state: &Arc<AppState>) -> Value {
                         "author": e.author,
                         "description": e.description,
                         "featured": e.featured,
+                        "iconUrl": e.files.iter().find(|f| !e.icon.is_empty() && f.path == e.icon).map(|f| f.url.clone()),
                         "installed": local.is_some(),
                         "installedVersion": local.map(|m| m.version),
                         "installedReviewed": reviewed,

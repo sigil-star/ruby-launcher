@@ -1,5 +1,7 @@
 import { AppBackground } from "../components/AppBackground";
 import { usePluginPages } from "../lib/plugins";
+import { kindOf, setPresenceMap, type PresenceKind } from "../lib/presenceMap";
+import { friends as fetchFriends } from "../lib/api";
 import { DesktopNotifyWatcher } from "./DesktopNotify";
 import { TrayStatus } from "./TrayStatus";
 import { ConfirmHost } from "../components/Confirm";
@@ -253,6 +255,20 @@ function Toasts() {
   );
 }
 
+/** Keeps the shared presence map current: friends from the friends list, you from your session. */
+function PresenceSync() {
+  const me = useMe();
+  const { playing } = useUi();
+  const fr = useQuery({ queryKey: ["friends", me.id], queryFn: () => fetchFriends(me.id), refetchInterval: 45_000, enabled: !!me.id });
+  useEffect(() => {
+    const m = new Map<number, PresenceKind>();
+    for (const f of fr.data ?? []) m.set(f.id, kindOf(f.presence?.userPresenceType));
+    if (me.id) m.set(me.id, playing ? "ingame" : "online");
+    setPresenceMap(m);
+  }, [fr.data, me.id, playing]);
+  return null;
+}
+
 export function Shell({ children }: { children: ReactNode }) {
   const me = useMe();
   // Warm up the embedded roblox.com page in the background so opening one is quick.
@@ -354,11 +370,13 @@ export function Shell({ children }: { children: ReactNode }) {
         {pluginPages.map((p) => (
           <RailButton
             key={`${p.pluginId}:${p.id}`}
-            icon={(p.icon as IconName) ?? "squares-grid-qr"}
+            icon={(p.icon as IconName) ?? "puzzle"}
             label={p.label}
             active={route.name === "plugin" && route.pluginId === p.pluginId && route.pageId === p.id}
             onClick={() => go({ name: "plugin", pluginId: p.pluginId, pageId: p.id })}
-          />
+          >
+            {p.iconUrl ? <img className="rail-plugin-icon" src={p.iconUrl} alt="" draggable={false} /> : undefined}
+          </RailButton>
         ))}
         <img className="rail-logo" src={`${import.meta.env.BASE_URL}RubyLauncher.png`} alt="" draggable={false} />
       </aside>
@@ -373,6 +391,7 @@ export function Shell({ children }: { children: ReactNode }) {
         </main>
       </div>
       <RowArrows />
+      <PresenceSync />
       <ChallengeHost />
       <DesktopNotifyWatcher />
       <TrayStatus />

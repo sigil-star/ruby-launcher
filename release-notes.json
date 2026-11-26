@@ -64,5 +64,10 @@
   ],
   "1.0.13": [
     "Plugins now has its own button on the left bar"
+  ],
+  "1.0.14": [
+    "New featured plugins: Avatar Frames (animated rings by online status), Session Stats, Notepad and Chroma",
+    "Plugins can have their own icons",
+    "Sliders and plugin highlights now use your accent color"
   ]
 }

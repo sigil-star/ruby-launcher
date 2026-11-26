@@ -49,13 +49,17 @@ my-plugin/
   "version": "1.0.0",
   "author": "you",
   "description": "What it does, in one line.",
-  "entry": "index.js"
+  "entry": "index.js",
+  "icon": "icon.svg"
 }
 ```
 
 - `id` — unique, lowercase letters, digits, `-` and `.`. It must match the folder name.
 - `version` — bump it every time you change the plugin (`1.0.1`, `1.1.0`, …).
 - `entry` — the JavaScript file to run, relative to the folder (defaults to `index.js`).
+- `icon` — optional square image in the folder (`.png`, `.svg` or `.webp`, up to 256 KB). It's
+  shown on your plugin's card, and you can use it for your left-bar button. SVG icons may not
+  contain scripts, event handlers or links.
 
 ### `index.js`
 
@@ -93,7 +97,9 @@ editing, click **Refresh** to reload it. A full example lives in
 | `ruby.apiVersion` | The API version (currently `1`). |
 | `ruby.version` | Ruby's version string. |
 | `ruby.user` | Public info about the signed-in user: `{ id, name, displayName }`. Never the Roblox session. |
-| `ruby.registerPage({ id, label, icon?, mount })` | Adds a button to the left bar. `mount(container)` draws into a plain DOM element and may return a cleanup function. |
+| `ruby.registerPage({ id, label, icon?, iconUrl?, mount })` | Adds a button to the left bar. `icon` is a built-in icon name; pass `iconUrl: ruby.iconUrl` to use your plugin's own icon. `mount(container)` draws into a plain DOM element and may return a cleanup function. |
+| `ruby.iconUrl` | Your plugin's icon as an image URL (or `null`). |
+| `ruby.addStyles(css)` | Adds CSS to Ruby; returns a function that removes it, and it's removed automatically when the plugin turns off. CSS that loads anything (`url()`, `@import`) is refused. Max 50 KB. |
 | `ruby.registerSettings({ id, title, mount })` | Adds a section under Ruby Settings › General. |
 | `ruby.registerCustomizeTab({ id, label, icon?, mount })` | Adds a tab to the Customize page. |
 | `ruby.on(event, cb)` | `"navigate"` (`{ name }`), `"gameLaunch"` (`{ placeId, jobId }`), `"gameLeave"`. |
@@ -104,7 +110,28 @@ editing, click **Refresh** to reload it. A full example lives in
 | `ruby.navigate(name)` | Go to a built-in page: `"home"`, `"avatar"`, `"chat"`, `"mods"`, `"plugins"`, `"friends"`, … |
 | `ruby.storage.get(key)` / `ruby.storage.set(key, value)` | Per-plugin string storage, on this PC only. |
 
-`icon` is one of Ruby's built-in icon names (`star`, `compass`, `chat`, `person`, …).
+`icon` is one of Ruby's built-in icon names (`star`, `compass`, `chat`, `person`, `puzzle`, …).
+
+### Styling avatars
+
+Every avatar in Ruby is a `.headshot` element with two attributes you can target from
+`ruby.addStyles`:
+
+- `data-user` — the Roblox user id.
+- `data-presence` — `online`, `ingame`, `studio` or `offline` (when Ruby knows it; your own
+  avatar is `online`, or `ingame` while you play).
+
+```js
+ruby.addStyles(`
+  .headshot[data-presence="ingame"]::before {
+    content: ""; position: absolute; inset: -6%; border-radius: 50%;
+    border: 2px solid var(--blue); pointer-events: none;
+  }
+`);
+```
+
+Ruby's accent color is the CSS variable `--blue`. The featured **Avatar Frames** plugin is a
+complete example of animated, status-colored rings.
 
 ---
 
@@ -137,6 +164,8 @@ checker rejects most violations before a human even looks.
 - Build UI with `document.createElement` and `textContent`. Don't build HTML from strings
   (`innerHTML`, `outerHTML`, `insertAdjacentHTML`) — it's the easiest way to create an injection
   bug.
+- Style with `ruby.addStyles` and keep selectors specific to what you change; don't hide or
+  restyle Ruby's own safety prompts, Settings or the Plugins page.
 - Keep your data in `ruby.storage`, not `localStorage`/`sessionStorage`/IndexedDB directly, so
   you can't read or overwrite other plugins' or Ruby's data.
 - Don't open windows or pop-ups yourself; use `ruby.openExternal` for links (https only).
