@@ -2658,7 +2658,7 @@ dependencies = [
 
 [[package]]
 name = "ruby-setup"
-version = "1.0.11"
+version = "1.0.12"
 dependencies = [
  "brotli-decompressor 4.0.3",
  "dirs 5.0.1",

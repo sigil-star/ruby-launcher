@@ -163,7 +163,7 @@ function Drawer({ open, onClose, onSwitchAccounts, newRequests = 0 }: { open: bo
     { icon: "roblox-plus", label: "Roblox Plus", onClick: () => nav({ name: "web", url: "https://www.roblox.com/plus", title: "Roblox Plus" }) },
     { icon: "gear", label: t("Ruby Settings"), onClick: () => nav({ name: "rubySettings" }) },
     { icon: "person", label: t("Account Settings"), onClick: () => nav({ name: "settings" }) },
-    { icon: "squares-grid-qr", label: t("Plugins"), onClick: () => nav({ name: "plugins" }) },
+    { icon: "puzzle", label: t("Plugins"), onClick: () => nav({ name: "plugins" }) },
     { icon: "circle-i", label: t("Help & Safety"), onClick: () => nav({ name: "help" }) },
   ];
   return (
@@ -345,6 +345,7 @@ export function Shell({ children }: { children: ReactNode }) {
         <RailButton icon="house" label={t("Home")} active={["home", "game", "search", "list"].includes(route.name)} onClick={() => go({ name: "home" })} />
         <RailButton icon="chat" label={t("Chat")} active={route.name === "chat"} dot={chatDot} onClick={() => go({ name: "chat" })} />
         <RailButton icon="paint-brush" label={t("Customize")} active={route.name === "mods"} onClick={() => go({ name: "mods" })} />
+        <RailButton icon="puzzle" label={t("Plugins")} active={route.name === "plugins" || route.name === "plugin"} onClick={() => go({ name: "plugins" })} />
         <RailButton label={t("Me")} active={route.name === "avatar" || (route.name === "profile" && route.userId === me.id)} onClick={() => go({ name: "avatar" })}>
           <Headshot userId={me.id} size={28} />
         </RailButton>

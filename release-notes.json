@@ -61,5 +61,8 @@
     "Plugins: add features to Ruby from Plugins in the menu or Settings",
     "Featured plugins are reviewed and checked file-by-file against a signed list before installing",
     "Make your own plugins and submit them on GitHub to get featured"
+  ],
+  "1.0.13": [
+    "Plugins now has its own button on the left bar"
   ]
 }

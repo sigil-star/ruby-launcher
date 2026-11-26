@@ -6,6 +6,7 @@ import { t, fmtNum } from "../lib/i18n";
 
 /* Builder icons from public/icons, tinted with currentColor via CSS mask. */
 export type IconName =
+  | "puzzle"
   | "house" | "magnifying-glass" | "bell" | "gear" | "robux" | "star" | "clock" | "two-people" | "person" | "person-plus"
   | "backpack" | "envelope" | "roblox-plus" | "circle-i" | "studio" | "three-bars-horizontal" | "thumb-up" | "thumb-down"
   | "chevron-small-left" | "chevron-small-right" | "arrow-large-left" | "x-small" | "check" | "play-small" | "heart"
@@ -16,6 +17,11 @@ export type IconName =
   | "dots-horizontal" | "megaphone" | "paint-brush" | "compass" | "arrow-large-right" | "speaker" | "speaker-x";
 
 const INLINE: Partial<Record<IconName, ReactNode>> = {
+  puzzle: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinejoin="round">
+      <path d="M9 4.5a2 2 0 1 1 4 0V6h3.5A1.5 1.5 0 0 1 18 7.5V11h1.5a2 2 0 1 1 0 4H18v3.5a1.5 1.5 0 0 1-1.5 1.5H13v-1.5a2 2 0 1 0-4 0V20H5.5A1.5 1.5 0 0 1 4 18.5V15h1.5a2 2 0 1 0 0-4H4V7.5A1.5 1.5 0 0 1 5.5 6H9V4.5z" />
+    </svg>
+  ),
   speaker: (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <path d="M11 5 6 9H3v6h3l5 4V5z" fill="currentColor" />
